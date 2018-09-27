@@ -17,3 +17,7 @@ Route::get('/', function () {
 Route::get('hello',function(){
     return "Hello World!!!";
 });
+Route::group(['namespace'=>'Home'],function(){
+    Route::get('/','IndexController@index');//前台首页
+    Route::resource('goods','GoodsController');
+});
