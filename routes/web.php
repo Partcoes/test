@@ -19,5 +19,5 @@ Route::get('hello',function(){
 });
 Route::group(['namespace'=>'Home'],function(){
     Route::get('/','IndexController@index');//前台首页
-    Route::resource('goods','GoodsController');
+    Route::resource('goods','GoodsController');//商品资源
 });
