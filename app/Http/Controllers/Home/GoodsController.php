@@ -11,7 +11,7 @@ class GoodsController extends Controller
     //商品管理控制器
     public function show($id)
     {
-        $data = DB::table('goods')->where('id',$id)->first();
-        dd($data);
+        $data = DB::table('goods')->where('good_id',$id)->first();
+        return view('home.goods.show');
     }
 }
