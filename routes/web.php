@@ -17,10 +17,3 @@ Route::get('/', function () {
 Route::get('hello',function(){
     return "Hello World!!!";
 });
-Route::get('index','IndexController@index');
-Route::get('list','IndexController@show');
-Route::get('admin/index','Admin\AdminController@index');
-Route::resource('users','UsersController');
-Route::get('zhangenlai',function(){
-    return "my name is enlai zhang";
-});
