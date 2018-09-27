@@ -24,4 +24,8 @@ class UsersController extends Controller
     {
         dd($id);
     }
+    public function edit($id)
+    {
+        return $id;
+    }
 }
