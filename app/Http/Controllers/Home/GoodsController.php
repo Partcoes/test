@@ -13,8 +13,8 @@ class GoodsController extends Controller
      */
     public function show($id)
     {
-        $goodsList = DB::table('goods')->where('good_type',$id)->get();
-        return view('home.goods.show',['data'=>$data]);
+        $goodsList = DB::table('goods')->where('good_type',$id)->getRows();
+        return view('home.goods.show',['goodsList'=>$goodsList]);
     }
 
     /**

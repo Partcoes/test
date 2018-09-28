@@ -4,31 +4,18 @@ namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Model\Home\UserModel;
 
 class UsersController extends Controller
 {
     /**
-     * 
+     * 使用模型查找用户信息
      */
-    public function show($type)
+    public function index()
     {
-        if($type == 'login'){
-            return view('home.users.login');
-        }else if($type == 'register'){
-            return view('home.users.register');
-        }
-    }
-
-    /**
-     * 
-     */
-    public function store(Request $request)
-    {
-        $data = $request->input();
-        if($data['submit'] == '立即登录') {
-            return 'login';
-        }else if($data['submit'] == '立即注册'){
-            return "register";
-        }
+        $id = 1;
+        $User = new UserModel();
+        $userInfo = $User->getUserInfo($id);
+        dd($userInfo);
     }
 }
