@@ -22,9 +22,9 @@ Route::group(['namespace'=>'Home'],function(){
     Route::get('users/login','UsersController@login');//用户登录页面
     Route::get('users/register','UsersController@register');//用户注册页面
     Route::get('goods/{good_type}','GoodsController@list');//商品资源
-    Route::get('good/{good_id}','GoodsController@detail');
-    Route::get('order/list','OrderController@list');
-    Route::get('order/self_info','UsersController@self');
+    Route::get('good/{good_id}','GoodsController@detail');//商品详情
+    Route::get('order/list','OrderController@list');//订单列表
+    Route::get('order/self_info','UsersController@self');//用户信息
     Route::resource('users','UsersController');//用户资源
     Route::resource('shopping','ShoppingController');//购物车资源
 });
