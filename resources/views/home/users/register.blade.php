@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<form  method="post" action="/users">
-        {{csrf_field()}}
+		@csrf
 		<div class="regist">
 			<div class="regist_center">
 				<div class="regist_top">

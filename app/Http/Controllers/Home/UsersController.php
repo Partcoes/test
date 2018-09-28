@@ -18,4 +18,9 @@ class UsersController extends Controller
         $userInfo = $User->getUserInfo($id);
         dd($userInfo);
     }
+    public function store(Request $request)
+    {
+        $userInfo = $request->input();
+        dd($userInfo);
+    }
 }

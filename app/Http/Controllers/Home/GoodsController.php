@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
+use App\Model\Home\GoodModel;
 
 class GoodsController extends Controller
 {
@@ -13,7 +14,8 @@ class GoodsController extends Controller
      */
     public function show($id)
     {
-        $goodsList = DB::table('goods')->where('good_type',$id)->getRows();
+        $GoodModel = new GoodModel();
+        $goodsList = $GoodModel->getRows($id);
         return view('home.goods.show',['goodsList'=>$goodsList]);
     }
 

@@ -15,7 +15,7 @@
 			</div>
 		</div>
 		<form  method="post" action="/users" class="form center">
-		{{csrf_field()}}
+		@csrf
 		<div class="login">
 			<div class="login_center">
 				<div class="login_top">
