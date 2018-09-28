@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 
 class IndexController extends Controller
 {
-    //前台首页
+    /**
+     * 前台首页
+     */
     public function index()
     {
         return view('home.index.index');
