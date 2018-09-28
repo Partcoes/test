@@ -42,7 +42,7 @@
 		</form>
 		<footer>
 			<div class="copyright">简体 | 繁体 | English | 常见问题</div>
-			<div class="copyright">小米公司版权所有-京ICP备10046444-<img src="./image/ghs.png" alt="">京公网安备11010802020134号-京ICP证110507号</div>
+			<div class="copyright">小米公司版权所有-京ICP备10046444-<img src="/home/image/ghs.png" alt="">京公网安备11010802020134号-京ICP证110507号</div>
 
 		</footer>
 	</body>
