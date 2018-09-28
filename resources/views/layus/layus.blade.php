@@ -5,6 +5,8 @@
         <meta name="author" content="order by dede58.com"/>
 		<title>小米商城</title>
 		<link rel="stylesheet" type="text/css" href="{{URL::asset('/home/css/style.css')}}">
+		{{-- <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> --}}
+    	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 	</head>
 	<body>
 	<!-- start header -->
@@ -35,12 +37,12 @@
 					</ul>
 				</div>
 				<div class="right fr">
-					<div class="gouwuche fr"><a href="">购物车</a></div>
+					<div class="gouwuche fr"><a href="{{url('/shopping')}}">购物车</a></div>
 					<div class="fr">
 						<ul>
-							<li><a href="/users/login" target="_blank">登录</a></li>
+							<li><a href="{{url('/users/login')}}" target="_blank">登录</a></li>
 							<li>|</li>
-							<li><a href="/users/register" target="_blank" >注册</a></li>
+							<li><a href="{{url('/users/register')}}" target="_blank" >注册</a></li>
 							<li>|</li>
 							<li><a href="">消息通知</a></li>
 						</ul>

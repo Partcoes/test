@@ -6,8 +6,8 @@
 			<div class="main center">
 				@foreach ($goodsList as $key => $item)
 				<div class="mingxing fl mb20" style="border:2px solid #fff;width:230px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
-					<div class="sub_mingxing"><a href="./xiangqing.html" target="_blank"><img src="./image/liebiao_xiaomi6.jpg" alt=""></a></div>
-					<div class="pinpai"><a href="./xiangqing.html" target="_blank">{{$item->good_name}}</a></div>
+					<div class="sub_mingxing"><a href="{{url('good/1')}}" target="_blank"><img src="/home/image/liebiao_xiaomi6.jpg" alt=""></a></div>
+					<div class="pinpai"><a href="{{url('good/1')}}" target="_blank">{{$item->good_name}}</a></div>
 					<div class="youhui">5.16早10点开售</div>
 					<div class="jiage">{{$item->good_price}}元</div>
 				</div>
