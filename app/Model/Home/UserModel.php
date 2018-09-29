@@ -19,4 +19,26 @@ class UserModel extends Model
         $userInfo = DB::table($this->table)->where('user_id',$user_id)->first();
         return $userInfo;
     }
+
+    /**
+     * 添加用户信息
+     */
+    public function Register($data)
+    {
+        $res = DB::table($this->table)->insert($data);
+        if ($res) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 通过用户名称来获取用户信息
+     */
+    public function getUserInfoByName($userName)
+    {
+        $userInfo = DB::table($this->table)->where('user_name',$userName)->first();
+        return $userInfo;
+    }
 }

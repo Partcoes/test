@@ -14,7 +14,7 @@
 				<a href="/" target="_blank"><img src="/home/image/mistore_logo.png" alt=""></a>
 			</div>
 		</div>
-		<form  method="post" action="/users" class="form center">
+		<form  method="post" action="{{url('users')}}" class="form center">
 		@csrf
 		<div class="login">
 			<div class="login_center">
@@ -34,7 +34,7 @@
 					</div>
 				</div>
 				<div class="login_submit">
-					<input class="submit" type="submit" name="submit" value="立即登录" >
+					<input class="submit" type="submit" value="立即登录" >
 				</div>
 				
 			</div>
