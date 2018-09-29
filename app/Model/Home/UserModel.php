@@ -5,6 +5,7 @@ namespace App\Model\Home;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
+//制定users表的模型
 class UserModel extends Model
 {
     //指定表名
