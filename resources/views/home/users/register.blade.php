@@ -40,27 +40,28 @@
 						var user_name = $('#user_name').val();
 						var regEmail = /^[A-Za-z0-9]+\@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
 						var regTel = /^[\d]{11}$/;
-						if (regEmail.test(user_name)) {
-							$('#checkName').text('用户邮箱登录');
-						} else if (regTel.test(user_name)) {
-							$('#checkName').text('用户手机号码登录');
+						if (!regEmail.test(user_name) && !regTel.test(user_name)) {
+							$('#checkName').text('验证失败');$('#user_name').css('border-color','red');
+							return false;
 						} else {
-							$('#checkName').text('验证失败');$('#user_name').css('border-color','red');return false;
+							return true;
+							$.ajax({
+								type : 'post',
+								url : "{{url('users/rename')}}",
+								datatype : 'json',
+								data : {'_token':'{{csrf_token()}}','userName':user_name},
+								success:function (msg) {
+									if (msg == 'null') {
+										$('#user_name').css('border-color','green');
+									} else {
+										alert('用户已经存在');
+										$('#user_name').css('border-color','red');
+									}
+								} , error:function () {
+									alert('服务器繁忙');
+								},
+							});
 						}
-						$.ajax({
-							type : 'post',
-							url : "{{url('users/rename')}}",
-							datatype : 'json',
-							data : {'_token':'{{csrf_token()}}','userName':user_name},
-							success:function (msg) {
-								if (msg == 'null') {
-									$('#user_name').css('border-color','green');return true;
-								} else {
-									alert('用户已经存在');
-									$('#user_name').css('border-color','red');return false;
-								}
-							}
-						});
 					}
 
 
@@ -70,7 +71,6 @@
 					function checkPwd()
 					{
 						var user_pwd = $('#user_pwd').val();
-						console.log(user_pwd);
 						var regPwd = /^[a-zA-Z\d_\.\/]{8,}$/;
 						if (regPwd.test(user_pwd)) {
 							$('#checkPwd').text('密码验证成功');$('#user_pwd').css('border-color','green');return true;
@@ -98,6 +98,7 @@
 						限制表单提交
 					**/
 					$('form').submit(function(){
+						// return false;
 						if (checkName() && checkPwd() && checkRepwd()) {
 							return true;
 						} else {

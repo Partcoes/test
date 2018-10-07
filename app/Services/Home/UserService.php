@@ -30,4 +30,20 @@ class UserService
         $res = $this->userModel->Register($userInfo);
         return $res;
     }
+
+    /**
+     * 验证用户登录
+     */
+    public function userLogin($userInfo)
+    {
+        unset($userInfo['_token']);
+        $userInfo['user_pwd'] = md5($userInfo['user_pwd']);
+        $res = $this->userModel->getUserIdByInfo($userInfo);
+        if ($res) {
+            session('user_id',$res);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

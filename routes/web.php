@@ -19,7 +19,7 @@
 // });
 Route::group(['namespace'=>'Home'],function(){
     Route::get('/','IndexController@index');//前台首页
-    Route::get('users/login','UsersController@login');//用户登录页面
+    Route::match(['get','post'],'users/login','UsersController@login');//用户登录页面
     Route::match(['get','post'],'users/register','UsersController@register');//用户注册页面
     Route::post('users/rename','UsersController@rename');//验证用户唯一
     Route::get('goods/{good_type}','GoodsController@list');//商品资源
