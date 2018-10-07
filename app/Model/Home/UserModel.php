@@ -41,4 +41,14 @@ class UserModel extends Model
         $userInfo = DB::table($this->table)->where('user_name',$userName)->first();
         return $userInfo;
     }
+    
+    /**
+     * 通过用户信息获取用户id
+     */
+    public function getUserIdByInfo($userInfo)
+    {
+        $res = DB::table($this->table)->where($userInfo)->first();
+        $user_id = $res->user_id;
+        return $user_id;
+    }
 }

@@ -21,8 +21,17 @@ class UsersController extends Controller
     /**
      * 用户登录页面
      */
-    public function login()
+    public function login(Request $request)
     {
+        $userInfo = $request->input();
+        if ($userInfo) {
+            $res = $this->userService->userLogin($request,$userInfo);
+            if ($res) {
+                return "登陆成功";
+            } else {
+                return "登录失败";
+            }
+        }
         return view('home.users.login');
     }
 
