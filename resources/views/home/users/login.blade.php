@@ -25,11 +25,26 @@
 					<div class="xian center"></div>
 				</div>
 				<div class="login_main center">
-					<div class="username">用户名:&nbsp;<input class="shurukuang" type="text" name="user_name" placeholder="请输入你的用户名"/></div>
+					<div class="username">用户名:&nbsp;<input class="shurukuang" type="text" name="user_name" placeholder="请输入手机号或者邮箱"/></div>
 					<div class="username">密&nbsp;&nbsp;&nbsp;&nbsp;码:&nbsp;<input class="shurukuang" type="password" name="user_pwd" placeholder="请输入你的密码"/></div>
 					<div class="username">
-						<div class="left fl">验证码:&nbsp;<input class="yanzhengma" type="text" name="" placeholder="请输入验证码"/></div>
-						<div class="right fl"><img src="/home/image/yanzhengma.jpg"></div>
+						<div class="left fl">验证码:&nbsp;<input id="captcha"  class="yanzhengma" type="captcha" name="captcha" value="{{old('captcha')}}" placeholder="请输入验证码" required></div>
+						<div class="right fl">
+							<div class="form-group">
+								<div class="form-group">
+									<div class="col-md-3">
+										@if($errors->has('captcha'))
+											<div class="col-md-12">
+												<p class="text-danger text-left"><strong>{{$errors->first('captcha')}}</strong></p>
+											</div>
+										@endif
+									</div>
+									<div class="col-md-4">
+										<img src="{{captcha_src()}}" style="cursor: pointer" onclick="this.src='{{captcha_src()}}'+Math.random()">
+									</div>
+								</div>
+							</div>
+						</div>
 						<div class="clear"></div>
 					</div>
 				</div>

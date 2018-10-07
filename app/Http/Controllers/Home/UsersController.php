@@ -25,7 +25,7 @@ class UsersController extends Controller
     {
         $userInfo = $request->input();
         if ($userInfo) {
-            $res = $this->userService->userLogin($userInfo);
+            $res = $this->userService->userLogin($request,$userInfo);
             if ($res) {
                 return "登陆成功";
             } else {

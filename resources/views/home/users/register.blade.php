@@ -23,8 +23,23 @@
 					<div class="username">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:&nbsp;&nbsp;<input onblur="checkPwd()" id="user_pwd" class="shurukuang" type="password" name="user_pwd" placeholder="请输入你的密码"/><span id="checkPwd">请输入6位以上字符</span></div>
 					<div class="username">确认密码:&nbsp;&nbsp;<input onblur="checkRepwd()" class="shurukuang" type="password" id="user_repwd" name="user_repwd" placeholder="请确认你的密码"/><span id="checkRepwd">两次密码要输入一致哦</span></div>
 					<div class="username">
-						<div class="left fl">验&nbsp;&nbsp;证&nbsp;&nbsp;码:&nbsp;&nbsp;<input class="yanzhengma" type="text" name="verification" placeholder="请输入验证码"/></div>
-						<div class="right fl"><img src="/home/image/yanzhengma.jpg"></div>
+						<div class="left fl">验&nbsp;&nbsp;证&nbsp;&nbsp;码:&nbsp;&nbsp;<input id="captcha"  class="yanzhengma" type="captcha" name="captcha" value="{{old('captcha')}}" placeholder="请输入验证码" required></div>
+						<div class="right fl">
+							<div class="form-group">
+								<div class="form-group">
+									<div class="col-md-3">
+										@if($errors->has('captcha'))
+											<div class="col-md-12">
+												<p class="text-danger text-left"><strong>{{$errors->first('captcha')}}</strong></p>
+											</div>
+										@endif
+									</div>
+									<div class="col-md-4">
+										<img src="{{captcha_src()}}" style="cursor: pointer" onclick="this.src='{{captcha_src()}}'+Math.random()">
+									</div>
+								</div>
+							</div>
+						</div>
 						<div class="clear"></div>
 					</div>
 				</div>
@@ -44,7 +59,6 @@
 							$('#checkName').text('验证失败');$('#user_name').css('border-color','red');
 							return false;
 						} else {
-							return true;
 							$.ajax({
 								type : 'post',
 								url : "{{url('users/rename')}}",
@@ -61,6 +75,7 @@
 									alert('服务器繁忙');
 								},
 							});
+							return true;
 						}
 					}
 
