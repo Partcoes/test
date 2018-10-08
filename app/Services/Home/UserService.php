@@ -32,6 +32,19 @@ class UserService
     }
 
     /**
+    * 通过用户信息获取用户ID
+    */
+    public function getUserIdByInfo($userInfo)
+    {
+        $userId = $this->userModel->getUserIdByInfo($userInfo);
+        if ($userId) {
+            return $userId;
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * 验证用户登录
      */
     public function userLogin($request,$userInfo)

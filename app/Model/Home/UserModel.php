@@ -32,15 +32,6 @@ class UserModel extends Model
             return false;
         }
     }
-
-    /**
-     * 通过用户名称来获取用户信息
-     */
-    public function getUserInfoByName($userName)
-    {
-        $userInfo = DB::table($this->table)->where('user_name',$userName)->first();
-        return $userInfo;
-    }
     
     /**
      * 通过用户信息获取用户id
@@ -48,7 +39,11 @@ class UserModel extends Model
     public function getUserIdByInfo($userInfo)
     {
         $res = DB::table($this->table)->where($userInfo)->first();
-        $user_id = $res->user_id;
+        if ($res) {
+            $user_id = $res->user_id;
+        } else {
+            $user_id = null;
+        }
         return $user_id;
     }
 }

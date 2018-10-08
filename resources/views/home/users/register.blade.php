@@ -61,7 +61,7 @@
 						} else {
 							$.ajax({
 								type : 'post',
-								url : "{{url('users/rename')}}",
+								url : "{{URL::asset('users/rename')}}",
 								datatype : 'json',
 								data : {'_token':'{{csrf_token()}}','userName':user_name},
 								success:function (msg) {
