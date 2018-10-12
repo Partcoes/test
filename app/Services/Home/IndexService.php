@@ -21,15 +21,28 @@ class IndexService
      */
     public function getAllGoodsInfo()
     {
-        $allGoodsInfo = Brand::get();
+        // $allGoodsInfo = Brand::get()->good;
+        $allGoodsInfo = Brand::join('goods', 'goods.brand_id', '=', 'brands.brand_id')->get();
+        $allGoodsInfo = $this->getTree($allGoodsInfo);
         return $allGoodsInfo;
     }
 
     /**
-     * 无限极分类
+     * 处理对象
      */
-    public function getGroupInfo()
+    function getTree($data)
     {
-
+        foreach ($data as $key => $item) {
+            $brands[] = $item->brand_name;
+        }
+        $allGoodsInfo = [];
+        foreach (array_unique($brands) as $key => $item) {
+            foreach ($data as $k => $v) {
+                if ($v->brand_name == $item) {
+                    $allGoodsInfo[$item][] = $v;
+                }
+            }
+        }
+        return $allGoodsInfo;
     }
 }
