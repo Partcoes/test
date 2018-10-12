@@ -5,7 +5,7 @@
     <meta name="author" content="order by dede58.com"/>
     <title>会员登录</title>
     <link rel="stylesheet" type="text/css" href="{{URL::asset('/home/css/login.css')}}">
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="{{URL::asset('/js/jquery-3.1.1.min.js')}}"></script>
 
 </head>
 <body>
@@ -15,13 +15,13 @@
         <a href="{{URL::asset('/')}}" target="_blank"><img src="{{URL::asset('/home/image/mistore_logo.png')}}" alt=""></a>
     </div>
 </div>
-<form  method="post" action="{{URL::asset('index.php/users/login')}}" class="form center">
+<form  method="post" action="{{URL::asset('/users/login')}}" class="form center">
     @csrf
     <div class="login">
         <div class="login_center">
             <div class="login_top">
                 <div class="left fl">会员登录</div>
-                <div class="right fr">您还不是我们的会员？<a href="{{URL::asset('index.php/users/register')}}" target="_self">立即注册</a></div>
+                <div class="right fr">您还不是我们的会员？<a href="{{URL::asset('/users/register')}}" target="_self">立即注册</a></div>
                 <div class="clear"></div>
                 <div class="xian center"></div>
             </div>
@@ -51,7 +51,7 @@
                 if (captcha) {
                     $.ajax({
                         type : 'post',
-                        url : "{{URL::asset('index.php/users/checkCaptcha')}}",
+                        url : "{{URL::asset('/users/checkCaptcha')}}",
                         data : {captcha:captcha , '_token':"{{csrf_token()}}"},
                         datatype : 'json',
                         async : false,

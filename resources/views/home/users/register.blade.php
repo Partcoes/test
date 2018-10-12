@@ -5,11 +5,11 @@
     <meta name="author" content="order by dede58.com"/>
     <title>用户注册</title>
     <link rel="stylesheet" type="text/css" href="{{URL::asset('home/css/login.css')}}">
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="{{URL::asset('/js/jquery-3.1.1.min.js')}}"></script>
 
 </head>
 <body>
-<form  method="post" action="{{URL::asset('index.php/users/register')}}">
+<form  method="post" action="{{URL::asset('/users/register')}}">
     @csrf
     <div class="regist">
         <div class="regist_center">
@@ -91,7 +91,7 @@
             if (captcha) {
                 $.ajax({
                     type : 'post',
-                    url : "{{URL::asset('index.php/users/checkCaptcha')}}",
+                    url : "{{URL::asset('/users/checkCaptcha')}}",
                     data : {captcha:captcha , '_token':"{{csrf_token()}}"},
                     datatype : 'json',
                     async : false,

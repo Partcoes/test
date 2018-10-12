@@ -31,9 +31,9 @@ class UsersController extends Controller
             ]);
             $result = $this->userService->userLogin($request);
             if ($result) {
-                return redirect('/warning')->with(['message'=>'登录成功','url'=>'/laravel/public/index.php','jumpTime'=>3,'status'=>true]);
+                return redirect('/warning')->with(['message'=>'登录成功','url'=>'/','jumpTime'=>3,'status'=>true]);
             } else {
-                return redirect('/warning')->with(['message'=>'登录失败','url'=>'users/login','jumpTime'=>3,'status'=>false]);
+                return redirect('/warning')->with(['message'=>'登录失败','url'=>'/users/login','jumpTime'=>3,'status'=>false]);
             }
         }
         return view('home.users.login');
@@ -52,11 +52,11 @@ class UsersController extends Controller
                 ]);
                 $data = $this->userService->saveRegisterInfo($request);
                 if (isset($data['user_email'])) {
-                    return redirect('/warning')->with(['message'=>'感谢你通过邮箱注册我们的账号，请进入邮箱确认','url'=>'/laravel/public/index.php','jumpTime'=>3,'status'=>true]);
+                    return redirect('/warning')->with(['message'=>'感谢你通过邮箱注册我们的账号，请进入邮箱确认','url'=>'/','jumpTime'=>3,'status'=>true]);
                 } else if (isset($data['user_mobile'])) {
-                    return redirect('/warning')->with(['message'=>'感谢你通过手机号码注册','url'=>'/laravel/public/index.php','jumpTime'=>3,'status'=>true]);
+                    return redirect('/warning')->with(['message'=>'感谢你通过手机号码注册','url'=>'/','jumpTime'=>3,'status'=>true]);
                 } else {
-                    return redirect('/warning')->with(['message'=>'注册失败或该用户已经存在','url'=>'users/register','jumpTime'=>3,'status'=>false]);
+                    return redirect('/warning')->with(['message'=>'注册失败或该用户已经存在','url'=>'/users/register','jumpTime'=>3,'status'=>false]);
                 }
         }
         return view('home.users.register');
@@ -81,7 +81,7 @@ class UsersController extends Controller
         if (session()->get('userInfo')) {
             return view('home.users.self');
         } else {
-            return redirect('/warning')->with(['message'=>'请先登录','url'=>"users/login",'jumpTime'=>3,'status'=>false]);
+            return redirect('/warning')->with(['message'=>'请先登录','url'=>"/users/login",'jumpTime'=>3,'status'=>false]);
         }
     }
 
@@ -91,6 +91,6 @@ class UsersController extends Controller
     public function loginout()
     {
         session()->forget('userInfo');
-        return redirect('/warning')->with(['message'=>'退出成功','url'=>"/laravel/public/index.php",'jumpTime'=>3,'status'=>true]);
+        return redirect('/warning')->with(['message'=>'退出成功','url'=>"/",'jumpTime'=>3,'status'=>true]);
     }
 }

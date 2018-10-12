@@ -5,8 +5,7 @@
     <meta name="author" content="order by dede58.com"/>
     <title>小米商城</title>
     <link rel="stylesheet" type="text/css" href="{{URL::asset('/home/css/style.css')}}">
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    {{--<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">--}}
+    <script src="{{URL::asset('/js/jquery-3.1.1.min.js')}}"></script>
 </head>
 <body>
 <!-- start header -->
@@ -41,17 +40,17 @@
             <div class="fr">
                 <ul>
                     @if(session()->has('userInfo'))
-                        <li><a href="{{URL::asset('index.php/users/self')}}">{{session()->get('userInfo')->user_nickname}}您好</a></li>
+                        <li><a href="{{URL::asset('/users/self')}}">{{session()->get('userInfo')->user_nickname}}您好</a></li>
                         <li>|</li>
-                        <li><a href="{{URL::asset('index.php/users/register')}}">注册</a></li>
+                        <li><a href="{{URL::asset('/users/register')}}">注册</a></li>
                         <li>|</li>
                         <li><a href="">消息通知</a></li>
                         <li>|</li>
-                        <li><a href="{{URL::asset('index.php/users/loginout')}}">退出登录</a></li>
+                        <li><a href="{{URL::asset('/users/loginout')}}">退出登录</a></li>
                     @else
-                        <li><a href="{{URL::asset('index.php/users/login')}}">登录</a></li>
+                        <li><a href="{{URL::asset('/users/login')}}">登录</a></li>
                         <li>|</li>
-                        <li><a href="{{URL::asset('index.php/users/register')}}">注册</a></li>
+                        <li><a href="{{URL::asset('/users/register')}}">注册</a></li>
                     @endif
                 </ul>
             </div>

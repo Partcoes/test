@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Warning</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="{{URL::asset('/js/jquery-3.1.1.min.js')}}"></script>
 </head>
 <body>
 <div class="container" style="width:40%;position: fixed;top: 30%;left:30%;">
