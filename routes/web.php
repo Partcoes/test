@@ -15,6 +15,10 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
+Route::get('/time', function () {
+    return view('index');
+});
+
 Route::get('warning','WarningController@index');
 
 Route::group(['namespace'=>'Home'],function(){
