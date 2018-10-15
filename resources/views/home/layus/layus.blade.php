@@ -42,6 +42,8 @@
                     @if(session()->has('userInfo'))
                         <li><a href="{{URL::asset('/users/self')}}">{{session()->get('userInfo')->user_nickname}}您好</a></li>
                         <li>|</li>
+                        <li><a href="{{URL::asset('/users/signin')}}">签到</a></li>
+                        <li>|</li>
                         <li><a href="{{URL::asset('/users/register')}}">注册</a></li>
                         <li>|</li>
                         <li><a href="">消息通知</a></li>

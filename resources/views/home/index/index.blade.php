@@ -8,7 +8,7 @@
                 @foreach ($allGoodsInfo as $key => $item) 
                 <li>
                 <a href="{{URL::asset('index.php/brand/')}}">{!! $key !!}</a>
-                <div class="pop" style="overfloe:hidden;">
+                <div class="pop">
                     @foreach ($item as $k => $value)
                     <div class="left fl"  style="height:80px;">
                         <div>

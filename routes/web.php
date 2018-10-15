@@ -24,4 +24,5 @@ Route::group(['namespace'=>'Home'],function(){
     Route::get('users/loginout','UsersController@loginout');
     Route::post('users/checkCaptcha','UsersController@checkCaptcha');
     Route::get('users/self','UsersController@self');
+    Route::get('users/signin','UsersController@signin');
 });
