@@ -31,7 +31,8 @@ class SendEmail implements ShouldQueue
      */
     public function handle()
     {
-        Mail::raw('欢迎注册为我们的用户，希望你们喜欢!!!',function($message){
+        $content = "欢迎使用邮箱注册我们的账号，希望你喜欢！！！";
+        Mail::raw($content,function($message){
             // 发件人（你自己的邮箱和名称）
             $message->from('xishiwei0821@qq.com', 'Laravel Study');
             // 收件人的邮箱地址
