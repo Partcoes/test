@@ -27,7 +27,7 @@ class IndexController extends Controller
     public function index()
     {
         $typesInfo = $this->indexService->getTypesInfo();
-            $allGoodsInfo = $this->indexService->getAllGoodsInfo();
+        $allGoodsInfo = $this->indexService->getAllGoodsInfo();
         return view('home.index.index',['typesInfo'=>$typesInfo,'allGoodsInfo'=>$allGoodsInfo]);
     }
 }
