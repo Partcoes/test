@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Home\UserService;
+use App\Services\Home\IndexService;
 
 class UsersController extends Controller
 {
     //定义变量
     protected $userService;
+    protected $indexService;
 
     /**
      * 实例化模型
@@ -17,6 +19,7 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->userService = new UserService();
+        $this->indexService = new IndexService();
     }
 
     /**
@@ -92,5 +95,15 @@ class UsersController extends Controller
     {
         session()->forget('userInfo');
         return redirect('/warning')->with(['message'=>'退出成功','url'=>"/",'jumpTime'=>3,'status'=>true]);
+    }
+
+    /**
+     * 签到功能
+     */
+    public function signin()
+    {
+        $userInfo = session()->get('userInfo');
+        $typesInfo = $this->indexService->getTypesInfo();
+        return view('home.users.signin',['userInfo'=>$userInfo,'typesInfo'=>$typesInfo]);
     }
 }
