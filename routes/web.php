@@ -15,14 +15,18 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
+Route::get('/time', function () {
+    return view('index');
+});
+
 Route::get('warning','WarningController@index');
 
 Route::group(['namespace'=>'Home'],function(){
-    Route::get('/','IndexController@index');
-    Route::match(['get','post'],'users/login','UsersController@login');
-    Route::match(['get','post'],'users/register','UsersController@register');
-    Route::get('users/loginout','UsersController@loginout');
-    Route::post('users/checkCaptcha','UsersController@checkCaptcha');
-    Route::get('users/self','UsersController@self');
-    Route::get('users/signin','UsersController@signin');
+    Route::get('/','IndexController@index');//首页展示
+    Route::match(['get','post'],'users/login','UsersController@login');//用户登录功能
+    Route::match(['get','post'],'users/register','UsersController@register');//用户注册功能
+    Route::get('users/loginout','UsersController@loginout');//用户退出
+    Route::post('users/checkCaptcha','UsersController@checkCaptcha');//验证验证码
+    Route::get('users/self','UsersController@self');//个人中心
+    Route::get('users/signin','UsersController@signin');//用户签到
 });
