@@ -27,7 +27,9 @@ Route::group(['namespace'=>'Home'],function(){
     Route::get('users/signin','UsersController@signin');//用户签到
 });
 
-Route::resource('/admin/users','Admin\UsersController');
+Route::match(['get','post'],'admin/login','Admin\UsersController@login');
+Route::get('admin/loginout','Admin\UsersController@loginout');
 Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware'=>'adminLogin'],function(){
     Route::get('/','IndexController@index');
+    Route::resource('users','UsersController');
 });

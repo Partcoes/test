@@ -16,8 +16,8 @@ class adminLogin
     public function handle($request, Closure $next)
     {
         // dd($next);
-        if (!session()->has('adminUserInfo')) {
-            return redirect('/warning')->with(['message'=>'请先登录','url'=>'admin/users','jumpTime'=>3,'status'=>false]);
+        if (!session()->has('managerInfo')) {
+            return redirect('/warning')->with(['message'=>'请先登录','url'=>'admin/login','jumpTime'=>3,'status'=>false]);
         }
         return $next($request);
     }
