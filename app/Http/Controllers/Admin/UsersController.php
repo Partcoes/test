@@ -33,11 +33,7 @@ class UsersController extends Controller
                 'password.required' => '请输入密码'
             ]);
             $result = $this->userService->userLogin($request);
-            if ($result) {
-                return redirect('/warning')->with(['message'=>'登录成功','url'=>'/admin','jumpTime'=>3,'status'=>true]);
-            } else {
-                return redirect('/warning')->with(['message'=>'登录失败','url'=>'/admin/login','jumpTime'=>3,'status'=>false]);
-            }
+            return redirect('/warning')->with(['message'=>$result['message'],'url'=>$result['url'],'jumpTime'=>3,'status'=>$result['status']]);
         }
         return view('admin.users.login');
     }
@@ -48,6 +44,15 @@ class UsersController extends Controller
     public function create()
     {
         return view('admin.users.managercreate');
+    }
+
+    /**
+     * 管理员列表
+     */
+    public function index()
+    {
+        $managerList = $this->userService->getManagerList();
+        return view('admin.users.managerlist',['managerList'=>$managerList]);
     }
 
     /**

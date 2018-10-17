@@ -12,7 +12,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-        // dump(session()->get('adminUserInfo')['user_name']);
+        dump($this->menuList);
         return view('admin.index.index');
     }
 }

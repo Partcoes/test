@@ -10,4 +10,12 @@ class Manager extends Model
     protected $primaryKey = 'manager_id';
     //是否自动添加时间戳
     public $timestamps = false;
+
+    /**
+     * 关联表
+     */
+    public function roles()
+    {
+        return $this->belongsToMany('App\Model\Role','manager2role','manager_id','role_id');
+    }
 }
