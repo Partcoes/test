@@ -108,4 +108,14 @@ class UserService
             return $access = ['text'=>'没有任何权限,请联系管理员'];
         }
     }
+
+    /**
+     * 添加用户信息
+     */
+    public function createManager($request)
+    {
+        $managerInfo = $request->input();
+        $manager = New Manager();
+        $manager->manager_name = $managerInfo['manager_name'];
+    }
 }
