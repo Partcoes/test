@@ -15,10 +15,6 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::get('/time', function () {
-    return view('index');
-});
-
 Route::get('warning','WarningController@index');
 
 Route::group(['namespace'=>'Home'],function(){
@@ -29,4 +25,11 @@ Route::group(['namespace'=>'Home'],function(){
     Route::post('users/checkCaptcha','UsersController@checkCaptcha');//验证验证码
     Route::get('users/self','UsersController@self');//个人中心
     Route::get('users/signin','UsersController@signin');//用户签到
+});
+
+Route::match(['get','post'],'admin/login','Admin\UsersController@login');
+Route::get('admin/loginout','Admin\UsersController@loginout');
+Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware'=>'adminLogin'],function(){
+    Route::get('/','IndexController@index');
+    Route::resource('users','UsersController');
 });

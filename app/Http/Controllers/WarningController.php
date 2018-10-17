@@ -21,7 +21,7 @@ class WarningController extends Controller
         } else {
             $data = [
                 'message' => '非法访问！',
-                'url' => "/laravel/public/index.php",
+                'url' => "/",
                 'jumpTime' => 3,
                 'status' => false
             ];
