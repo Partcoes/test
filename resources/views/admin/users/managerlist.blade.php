@@ -22,11 +22,14 @@
             <td><input type="checkbox" name="" id=""></td>
             <td>{{$value->manager_name}}</td>
             <td>{{$value->manager_email}}</td>
-            <td>{{$value->manager_mobile?:'此管理员手机号吗未知'}}</td>
+            <td>{{$value->manager_mobile?:'此管理员手机号码未知'}}</td>
             <td><span>{{$value->is_super?'是':'否'}}</span></td>
             <td><button class="btn">{{$value->is_freeze?'已冻结':'可使用'}}</button></td>
             <td>{{date('Y-m-d H:i:s',$value->last_login_time)}}</td>
-            <td></td>
+            <td>
+                <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                <button class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+            </td>
         </tr>
         @endforeach
     </table>

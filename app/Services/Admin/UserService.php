@@ -95,12 +95,17 @@ class UserService
      */
     public function getAccess()
     {
-    //     foreach ($data as $key => $value) {
-    //         $access[] = $value;
-    //         foreach ($value as $k => $item) {
-    //             $access[] = $item;
-    //         }
-    //     }
-    //     return $access;
+        $data = $this->getUserMenu();
+        foreach ($data as $key => $value) {
+            $access[] = ltrim($value->menu_uri,'/');
+            foreach ($value->son as $k => $item) {
+                $access[] = ltrim($item->menu_uri,'/');
+            }
+        }
+        if (isset($access)) {
+            return $access;
+        } else {
+            return $access = ['text'=>'没有任何权限,请联系管理员'];
+        }
     }
 }
