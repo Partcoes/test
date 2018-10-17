@@ -1,6 +1,6 @@
 @extends('admin.index.index')
 @section('content_header')
-    <form action="" method="post">
+    <form action="{{URL::asset('admin/users')}}" method="post">
     <div class="box box-primary">
         <div class="box-header with-border"><h3>添加管理员</h3></div>
         <div class="box-body">
