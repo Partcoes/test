@@ -8,6 +8,8 @@ class Role extends Model
 {
     //设置主键
     protected $primaryKey = 'role_id';
+    //是否自动添加时间戳
+    public $timestamps = false;
 
     /**
      * 关联资源

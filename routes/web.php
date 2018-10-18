@@ -32,4 +32,6 @@ Route::get('admin/loginout','Admin\UsersController@loginout');
 Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware'=>'adminLogin'],function(){
     Route::get('/','IndexController@index');
     Route::resource('users','UsersController');
+    Route::resource('roles','RolesController');
+    Route::resource('menus','MenusController');
 });

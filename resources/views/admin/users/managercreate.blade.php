@@ -1,5 +1,5 @@
 @extends('admin.index.index')
-@section('content_header')
+@section('content')
     <form action="{{URL::asset('admin/users')}}" method="post">
     <div class="box box-primary">
         <div class="box-header with-border"><h3>添加管理员</h3></div>
@@ -22,10 +22,14 @@
                 <div class="col-sm-10"><input class="form-control" type="text" name="manager_mobile" id="manager_mobile" placeholder="管理员手机"></div>
             </div>
             <div class="form-group" style="height:45px;">
-                <label class="col-sm-2 control-label" for="is_super">是否是超级管理员</label>
+                <label class="col-sm-2 control-label" for="is_super">分配角色</label>
                 <div class="col-sm-10">
-                    <div class="col-sm-5"><input type="radio" name="is_super" value="1">是</div>
-                    <div class="col-sm-5"><input type="radio" name="is_super" value="0">否</div>
+                    <select name="role" id="role" class="form-control">
+                        <option value="">请选择</option>
+                        @foreach ($roles as $key => $item)
+                        <option value="{{$item->role_id}}">{{$item->role_name}}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
         </div>
