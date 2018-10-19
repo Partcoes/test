@@ -4,7 +4,7 @@
         <div class="box-header with-border">菜单展示</div>
         <div class="box-body">
             <table class="table table-hover table-striped">
-                <tr align="center">
+                <tr>
                     <td></td>
                     <td>菜单名称</td>
                     <td>菜单地址</td>
@@ -14,7 +14,7 @@
                     <td>操作</td>
                 </tr>
                 @foreach ($menus as $key => $item)
-                <tr align="center">
+                <tr>
                     <td><input type="checkbox" name="" id=""></td>
                     <td>{{str_repeat('|——',substr_count($item->path,'-'))}}{{$item->menu_name}}</td>
                     <td>{{$item->menu_uri}}</td>

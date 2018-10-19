@@ -27,11 +27,11 @@ Route::group(['namespace'=>'Home'],function(){
     Route::get('users/signin','UsersController@signin');//用户签到
 });
 
-Route::match(['get','post'],'admin/login','Admin\UsersController@login');
-Route::get('admin/loginout','Admin\UsersController@loginout');
+Route::match(['get','post'],'admin/login','Admin\UsersController@login');//后台用户登录
+Route::get('admin/loginout','Admin\UsersController@loginout');//退出登录
 Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware'=>'adminLogin'],function(){
-    Route::get('/','IndexController@index');
-    Route::resource('users','UsersController');
-    Route::resource('roles','RolesController');
-    Route::resource('menus','MenusController');
+    Route::get('/','IndexController@index');//后台首页
+    Route::resource('users','UsersController');//后台管理员资源
+    Route::resource('roles','RolesController');//角色资源
+    Route::resource('menus','MenusController');//菜单资源
 });

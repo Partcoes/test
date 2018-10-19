@@ -7,13 +7,13 @@
         <button class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
     </div>
     <table class="table table-hover table-striped">
-        <tr align="center">
+        <tr>
             <td></td>
             <td>角色名称</td>
             <td>操作</td>
         </tr>
         @foreach ($roles as $key => $value)
-        <tr align='center'>
+        <tr>
             <td><input type="checkbox" name="" id=""></td>
             <td>{{$value->role_name}}</td>
             <td></td>

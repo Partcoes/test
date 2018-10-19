@@ -36,7 +36,8 @@ class RolesController extends Controller
      */
     public function create()
     {
-        $menus = $this->userService->getUserMenu();
+        $menus = new \App\Services\Admin\MenuService();
+        $menus = $menus->getMenus();
         return view('admin.roles.rolecreate',['menus'=>$menus]);
     }
 
@@ -48,10 +49,12 @@ class RolesController extends Controller
         if ($request->isMethod('post')) {
             $this->validate($request,[
                 'role_name' => 'required|unique:roles,role_name',
+                'menus' => 'required',
             ]);
         }
         $result = $this->roleService->createRole($request);
         if ($result) {
+            $this->roleService->insertAccess();
             return redirect('/warning')->with(['message'=>'添加成功','url'=>'/admin/roles','jumpTime'=>3,'status'=>true]);
         } else {
             return redirect('/warning')->with(['message'=>'添加失败','url'=>'/admin/roles/create','jumpTime'=>3,'status'=>false]);

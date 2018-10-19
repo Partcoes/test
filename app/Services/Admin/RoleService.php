@@ -23,8 +23,23 @@ class RoleService
      */
     public function createRole($request)
     {
+        $role_name = $request->input('role_name');
         $role = new Role();
-        $role->role_name = $request->input('role_name');
-        return $role->save();
+        $roleId = $role->getInsertId(['role_name'=>$role_name]);
+        $menus = $request->input('menus');
+        foreach($menus as $key => $item) {
+            $data[$key]['role_id'] = $roleId;
+            $data[$key]['resource_id'] = $item;
+        }
+        $resource = new Resource();
+        return $resource->insertAccess($data);
+    }
+
+    /**
+     * 添加权限
+     */
+    public function insertAccess()
+    {
+
     }
 }

@@ -36,7 +36,6 @@ class UserService
     public function getUserMenu()
     {
         $managerInfo = session()->get('managerInfo');
-        // $role = Role::where('manager_id',$managerInfo->manager_id)->get();
         foreach ($managerInfo->roles as $key => $item) {
             $roles[$key] = $item->pivot->role_id;
         }
@@ -102,9 +101,6 @@ class UserService
         foreach ($data as $key => $value) {
             $access[] = ltrim($value->menu_uri,'/');
             $this->getAccess($value->son);
-            // foreach ($value->son as $k => $item) {
-            //     $access[] = ltrim($item->menu_uri,'/');
-            // }
         }
         if (isset($access)) {
             return $access;
