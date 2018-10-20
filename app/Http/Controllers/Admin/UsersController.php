@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Admin\UserService;
+use App\Services\Admin\RoleService;
 
 class UsersController extends Controller
 {
     //定义service变量
     protected $userService;
+    protected $roleService;
 
     /**
      * 初始化service
@@ -17,6 +19,7 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->userService = new UserService();
+        $this->roleService = new RoleService();
     }
 
     /**
@@ -43,7 +46,8 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('admin.users.managercreate');
+        $roles = $this->roleService->getAllRoles();
+        return view('admin.users.managercreate',['roles'=>$roles]);
     }
 
     /**
@@ -56,12 +60,23 @@ class UsersController extends Controller
                 'manager_name' => 'required',
                 'manager_pwd' => 'required',
                 'manager_email' => ['regex:/^[A-Za-z0-9]+\@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/','unique:managers,manager_email'],
-                'manager_mobile' => 'regex:/^1[0-9]{10}$/',
-                'is_super' => 'required'
+                'manager_mobile' => ['regex:/^1[0-9]{10}$/','unique:managers,manager_mobile'],
+                'role' => 'required'
             ]);
         }
-        $managerInfo = $this->userService->createManager($request);
-        dd($managerInfo);
+        $managerId = $this->userService->createManager($request);
+        $result = $this->userService->managerToRole($managerId,$request->input('role'));
+        if ($result) {
+            return redirect('/warning')->with(['message'=>'添加成功','url'=>'/admin/users','jumpTime'=>3,'status'=>true]);
+        }
+    }
+
+    /**
+     * 冻结/解冻用户
+     */
+    public function freeze()
+    {
+        return 1;
     }
 
     /**
