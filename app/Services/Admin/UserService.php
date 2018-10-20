@@ -1,7 +1,6 @@
 <?php
 namespace App\Services\Admin;
 
-use Illuminate\Support\Facades\Cookie;
 use App\Model\Manager;
 use App\Model\Role;
 use App\Model\Menu;
@@ -10,6 +9,10 @@ use App\Model\Resource;
 
 class UserService
 {
+
+    /**
+     * 用户登录
+     */
     public function userLogin($request)
     {
         $formInfo = $request->input();
@@ -33,7 +36,6 @@ class UserService
     public function getUserMenu()
     {
         $managerInfo = session()->get('managerInfo');
-        // $role = Role::where('manager_id',$managerInfo->manager_id)->get();
         foreach ($managerInfo->roles as $key => $item) {
             $roles[$key] = $item->pivot->role_id;
         }
@@ -65,13 +67,14 @@ class UserService
     /**
      * 生成菜单数据
      */
-    public function createMenus()
+    public function createMenus($data = '')
     {
-        $data = $this->getUserMenu();
+        $menus = [];
         foreach ($data as $key => $value) {
             $menus[$key] = ['text'=>$value->menu_name,'url'=>$value->menu_uri,'level'=>$value->level];
-            foreach ($value->son as $k => $item) {
-                $menus[$key]['submenu'][] = ['text'=>$item->menu_name,'url'=>$item->menu_uri,'level'=>$item->level];
+            $menus[$key]['submenu'] = $this->createMenus($value->son);
+            if (empty($menus[$key]['submenu'])) {
+                unset($menus[$key]['submenu']);
             }
         }
         if (isset($menus)) {
@@ -93,14 +96,13 @@ class UserService
     /**
      * 获取所有权限
      */
-    public function getAccess()
+    public function getAccess($data = '')
     {
-        $data = $this->getUserMenu();
+        static $access = [];
         foreach ($data as $key => $value) {
             $access[] = ltrim($value->menu_uri,'/');
-            foreach ($value->son as $k => $item) {
-                $access[] = ltrim($item->menu_uri,'/');
-            }
+            $this->getAccess($value->son);
+            $access = array_unique($access);
         }
         if (isset($access)) {
             return $access;
@@ -115,7 +117,29 @@ class UserService
     public function createManager($request)
     {
         $managerInfo = $request->input();
-        $manager = New Manager();
-        $manager->manager_name = $managerInfo['manager_name'];
+        $manager = new Manager();
+        $managerInfo = [
+            'manager_name' => $managerInfo['manager_name'],
+            'manager_pwd' => md5($managerInfo['manager_pwd']),
+            'manager_email' => $managerInfo['manager_email'],
+            'manager_mobile' => $managerInfo['manager_mobile'],
+            'is_super' => ($managerInfo['role']==1)?1:0,
+            'is_freeze' => 0,
+            'last_login_time' => time(),
+        ];
+        return $manager->addGetId($managerInfo);
+    }
+
+    /**
+     * 给管理员分配权限
+     */
+    public function managerToRole($managerId,$roleId)
+    {
+        $manager = new Manager();
+        $data = [
+            'manager_id' => $managerId,
+            'role_id' => $roleId,
+        ];
+        return $manager->toRole($data);
     }
 }

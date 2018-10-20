@@ -1,13 +1,18 @@
 <?php
 
 namespace App\Model;
+use DB;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
+    //设置表名
+    protected $table = 'roles';
     //设置主键
     protected $primaryKey = 'role_id';
+    //是否自动添加时间戳
+    public $timestamps = false;
 
     /**
      * 关联资源
@@ -15,5 +20,13 @@ class Role extends Model
     public function resources()
     {
         return $this->hasMany('App\Model\Resource','role_id');
+    }
+
+    /**
+     * 返回最后插入Id
+     */
+    public function getInsertId($data)
+    {
+        return DB::table($this->table)->insertGetId($data);
     }
 }
