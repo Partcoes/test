@@ -59,24 +59,34 @@ class UsersController extends Controller
             $this->validate($request,[
                 'manager_name' => 'required',
                 'manager_pwd' => 'required',
-                'manager_email' => ['regex:/^[A-Za-z0-9]+\@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/','unique:managers,manager_email'],
-                'manager_mobile' => ['regex:/^1[0-9]{10}$/','unique:managers,manager_mobile'],
+                'manager_email' => 'regex:/^[A-Za-z0-9]+\@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/',
+                'manager_mobile' => 'regex:/^1[0-9]{10}$/',
                 'role' => 'required'
             ]);
         }
         $managerId = $this->userService->createManager($request);
         $result = $this->userService->managerToRole($managerId,$request->input('role'));
         if ($result) {
-            return redirect('/warning')->with(['message'=>'添加成功','url'=>'/admin/users','jumpTime'=>3,'status'=>true]);
+            return redirect('/warning')->with(['message'=>'保存成功','url'=>'/admin/users/list','jumpTime'=>3,'status'=>true]);
         }
     }
 
     /**
      * 冻结/解冻用户
      */
-    public function freeze()
+    public function freeze(Request $request)
     {
-        return 1;
+        $managerId = $request->input('managerId');
+        return $this->userService->freeze($managerId);
+    }
+
+    /**
+     * 删除用户
+     */
+    public function delete(Request $request)
+    {
+        $managerId = $request->input('managerId');
+        return $this->userService->delete($managerId);
     }
 
     /**
@@ -86,6 +96,17 @@ class UsersController extends Controller
     {
         $managerList = $this->userService->getManagerList();
         return view('admin.users.managerlist',['managerList'=>$managerList]);
+    }
+
+    /**
+     * 编辑管理员信息
+     */
+    public function edit(Request $request)
+    {
+        $managerId = $request->input('manager_id');
+        $default = $this->userService->getManagerInfoById($managerId);
+        $roles = $this->roleService->getAllRoles();
+        return view('admin.users.managercreate',['roles'=>$roles,'default'=>$default]);
     }
 
     /**

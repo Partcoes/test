@@ -2,10 +2,6 @@
 @section('content')
 <div class="box box-primary">
     <div class="box-header with-border">管理员列表</div>
-    <div class="mailbox-controls">
-        <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-        <button class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
-    </div>
     <table class="table table-hover table-striped">
         <tr>
             <td></td>
@@ -16,7 +12,10 @@
         <tr>
             <td><input type="checkbox" name="" id=""></td>
             <td>{{$value->role_name}}</td>
-            <td></td>
+            <td>
+                <button class="btn btn-default btn-sm" title="删除"><i class="fa fa-trash-o"></i></button>
+                <button class="btn btn-default btn-sm" title="编辑"><i class="fa fa-edit"></i></button>
+            </td>
         </tr>
         @endforeach
     </table>

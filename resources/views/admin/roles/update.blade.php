@@ -2,12 +2,18 @@
 @section('content')
 <form action="{{URL::asset('admin/roles')}}" method="post">
     <div class="box box-primary">
-        <div class="box-header with-border"><h3>添加角色</h3></div>
+        <div class="box-header with-border"><h3>修改角色权限</h3></div>
         <div class="box-body">
             @csrf
             <div class="form-group" style="height:45px;">
                 <label class="col-sm-2 control-label" for="role_name">角色名称</label>
-                <div class="col-sm-10"><input class="form-control" type="text" name="role_name" id="role_name" placeholder="角色名称"></div>
+                <div class="col-sm-10">
+                    <select class="form-control" name="role" id="roles">
+                        @foreach ($roles as $key => $value)
+                            <option value="{{$value->role_id}}">{{$value->role_name}}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
             <div class="form-group" style="height:45px;">
                 <label class="col-sm-2 control-label" for="menus">分配权限</label>
@@ -28,6 +34,21 @@
 @endsection
 @section('js')
 <script>
+
+    /**
+        选中角色自动选中拥有权限
+     */
+    $('#roles').change(function(){
+        var roleId = $(this).val();
+        $.ajax({
+            type : 'post',
+            url : "{{URL::asset('/admin/roles/update')}}",
+            data : {roleId:roleId,'_token':"{{csrf_token()}}"},
+            success:function(msg) {
+                console.log(msg);
+            }
+        });
+    });
     /**
     *点击父级元素直接选中全部子元素
     */

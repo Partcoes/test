@@ -21,7 +21,10 @@
                     <td>{{$item->parent_id}}</td>
                     <td>{{$item->path}}</td>
                     <td><span>{{$item->is_menu?'菜单':'按钮'}}</span></td>
-                    <td></td>
+                    <td>
+                        <button class="btn btn-default btn-sm" title="删除"><i class="fa fa-trash-o"></i></button>
+                        <button class="btn btn-default btn-sm" title="编辑"><i class="fa fa-edit"></i></button>
+                    </td>
                 </tr>
                 @endforeach
             </table>

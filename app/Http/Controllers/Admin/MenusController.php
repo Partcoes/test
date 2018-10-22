@@ -51,7 +51,7 @@ class MenusController extends Controller
             ]);
             $result = $this->menuService->createMenu($request);
             if ($result) {
-                return redirect('/warning')->with(['message'=>'添加成功','url'=>'/admin/menus','jumpTime'=>3,'status'=>'true']);
+                return redirect('/warning')->with(['message'=>'添加成功','url'=>'/admin/menus/list','jumpTime'=>3,'status'=>'true']);
             } else {
                 return redirect('/warning')->with(['message'=>'添加失败','url'=>'/admin/menus/create','jumpTime'=>3,'status'=>'false']);
             }

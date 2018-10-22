@@ -54,10 +54,33 @@ class RolesController extends Controller
         }
         $result = $this->roleService->createRole($request);
         if ($result) {
-            $this->roleService->insertAccess();
-            return redirect('/warning')->with(['message'=>'添加成功','url'=>'/admin/roles','jumpTime'=>3,'status'=>true]);
+            return redirect('/warning')->with(['message'=>'添加成功','url'=>'/admin/roles/list','jumpTime'=>3,'status'=>true]);
         } else {
             return redirect('/warning')->with(['message'=>'添加失败','url'=>'/admin/roles/create','jumpTime'=>3,'status'=>false]);
         }
+    }
+    
+    /**
+     * 修改角色权限
+     */
+    public function update(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $roleAccess = $this->getRoleAccess($request->input('roleId'));
+            return $roleAccess;
+        }
+        $menus = new \App\Services\Admin\MenuService();
+        $menus = $menus->getMenus();
+        $roles = $this->roleService->getAllRoles();
+        return view('admin.roles.update',['menus'=>$menus,'roles'=>$roles]);
+    }
+
+    /**
+     * 通过角色获取权限
+     */
+    public function getRoleAccess($roleId)
+    {
+        return $roleId;
+        
     }
 }

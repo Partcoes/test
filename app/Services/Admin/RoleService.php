@@ -36,10 +36,10 @@ class RoleService
     }
 
     /**
-     * 添加权限
+     * 获取角色所拥有权限
      */
-    public function insertAccess()
+    public function getRoleAccess()
     {
-
+        
     }
 }
