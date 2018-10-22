@@ -76,11 +76,12 @@ class RolesController extends Controller
     }
 
     /**
-     * 通过角色获取权限
+     * 展示角色权限
      */
-    public function getRoleAccess($roleId)
+    public function show(Request $request)
     {
-        return $roleId;
-        
+        $roleId = $request->input('roleId');
+        $roleHasAccess = $this->roleService->getRoleAccess($roleId);
+        return view('admin.roles.show',['roleHasAccess'=>$roleHasAccess]);
     }
 }

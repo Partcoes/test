@@ -23,8 +23,8 @@
             <td id="is_freeze_td_{{$value->manager_id}}"><a class="freeze" id="{{$value->manager_id}}" href="javascript:void(0);">{{$value->is_freeze?'点击解冻':'点击冻结'}}</a></td>
             <td>{{date('Y-m-d H:i:s',$value->last_login_time)}}</td> 
             <td>
-                <button id="{{$value->manager_id}}" class="btn btn-default btn-sm delete" title="删除"><i class="fa fa-trash-o"></i></button>
                 <a href="{{URL::asset('/admin/users/edit?manager_id='.$value->manager_id)}}"><button id="{{$value->manager_id}}" class="btn btn-default btn-sm edit" title="编辑"><i class="fa fa-edit"></i></button></a>
+                <button id="{{$value->manager_id}}" class="btn btn-default btn-sm delete" title="删除"><i class="fa fa-trash-o"></i></button>
             </td>
         </tr>
         @endforeach

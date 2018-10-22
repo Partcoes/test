@@ -38,8 +38,13 @@ class RoleService
     /**
      * 获取角色所拥有权限
      */
-    public function getRoleAccess()
+    public function getRoleAccess($roleId)
     {
-        
+        $roleHasAccess = Resource::where(['resources.role_id'=>$roleId])
+        ->leftJoin('menus','resources.resource_id','=','menus.menu_id')
+        ->leftJoin('roles','resources.role_id','=','roles.role_id')
+        ->orderBy('menus.path')
+        ->get();
+        return $roleHasAccess;
     }
 }

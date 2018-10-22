@@ -163,6 +163,7 @@ class UserService
     public function managerToRole($managerId,$roleId)
     {
         $manager = new Manager();
+        $manager->deleteRole($managerId);
         $data = [
             'manager_id' => $managerId,
             'role_id' => $roleId,

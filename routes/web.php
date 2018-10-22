@@ -38,6 +38,7 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware'=>'adminLogin']
     Route::post('users/freeze','UsersController@freeze');//冻结用户
     Route::post('users/delete','UsersController@delete');//删除用户
     Route::get('roles/list','RolesController@index');//角色列表
+    Route::get('roles/show','RolesController@show');//查看角色权限
     Route::post('roles','RolesController@store');//添加角色
     Route::get('roles/create','RolesController@create');//创建角色表单
     Route::get('menus/list','MenusController@index');//菜单列表
