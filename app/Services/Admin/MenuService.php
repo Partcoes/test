@@ -23,21 +23,24 @@ class MenuService
      */
     public function createMenu($request)
     {
-        $menu = new Menu();
+        $menuInfo = $request->input();
+        $menu = Menu::where(['menu_uri'=>$menuInfo['menu_uri']])->first();
+        if  (!isset($menu->menu_id)) {
+            $menu = new Menu();
+        }
         if ($request->input('parent_id') != 0) {
             $path = $menu->getParentPath($request->input('parent_id'));
         }
         $path = isset($path)?$path:0;
-        $data = [
-            'menu_name' => $request->input('menu_name'),
-            'menu_uri' => $request->input('menu_uri'),
-            'is_menu' => $request->input('is_menu'),
-            'parent_id' => $request->input('parent_id'),
-            'path' => $path,
-        ];
+        $menu->menu_name = $menuInfo['menu_name'];
+        $menu->menu_uri = $menuInfo['menu_uri'];
+        $menu->is_menu = $menuInfo['is_menu'];
+        $menu->parent_id = $menuInfo['parent_id'];
+        $menu->path = $path;
+        $menu->save();
         DB::beginTransaction();
         try {
-            $menu_id = $menu->createMenu($data);
+            $menu_id = $menu->menu_id;
             $path = $path?$path.'-'.$menu_id:$menu_id;
             $result = Menu::where(['menu_id'=>$menu_id])->update(['path'=>$path]);
             DB::commit();
@@ -47,6 +50,33 @@ class MenuService
             DB::rollBack();
         }
         return $result;
-        
+    }
+
+    /**
+     * 删除菜单
+     */
+    public function removeMenu($menuId)
+    {
+        $menu = new Menu();
+        DB::beginTransaction();
+        try {
+            Menu::where(['menu_id'=>$menuId])->delete();
+            Resource::where(['resource_id'=>$menuId])->delete();
+            $result = true;
+            DB::commit();
+            
+        } catch (\Expection $e) {
+            $result = $e->getMessage();
+            DB::rollBack();
+        }
+        return $result;
+    }
+
+    /**
+     * 通过id获取菜单信息
+     */
+    public function menuInfo($menuId)
+    {
+        return Menu::where(['menu_id'=>$menuId])->first();
     }
 }

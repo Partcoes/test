@@ -37,4 +37,12 @@ class Manager extends Model
     {
         return DB::table('manager2role')->insert($data);
     }
+
+    /**
+     * 删除对应角色
+     */
+    public function deleteRole($managerId)
+    {
+        return DB::table('manager2role')->where(['manager_id'=>$managerId])->delete();
+    }
 }
