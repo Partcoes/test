@@ -49,6 +49,23 @@ class UserService
     }
 
     /**
+     * 获取用户所有权限
+     */
+    public function getUserAccess()
+    {
+        $managerInfo = session()->get('managerInfo');
+        foreach ($managerInfo->roles as $key => $item) {
+            $roles[$key] = $item->pivot->role_id;
+        }
+        $menus = Resource::leftJoin('menus','resources.resource_id','=','menus.menu_id')
+        ->whereIn('role_id',$roles)
+        ->get();
+        $menus = $this->createTree($menus);
+        return $menus;
+
+    }
+
+    /**
      * 无限接分类
      */
     public function createTree($data,$parent_id = 0,$level = 0)
@@ -112,34 +129,78 @@ class UserService
     }
 
     /**
+     * 获取用户信息通过id
+     */
+    public function getManagerInfoById($managerId)
+    {
+        return Manager::where(['manager_id'=>$managerId])->first();
+    }
+
+    /**
      * 添加用户信息
      */
     public function createManager($request)
     {
         $managerInfo = $request->input();
-        $manager = new Manager();
-        $managerInfo = [
-            'manager_name' => $managerInfo['manager_name'],
-            'manager_pwd' => md5($managerInfo['manager_pwd']),
-            'manager_email' => $managerInfo['manager_email'],
-            'manager_mobile' => $managerInfo['manager_mobile'],
-            'is_super' => ($managerInfo['role']==1)?1:0,
-            'is_freeze' => 0,
-            'last_login_time' => time(),
-        ];
-        return $manager->addGetId($managerInfo);
+        $manager = Manager::where(['manager_email'=>$managerInfo['manager_email']])->first();
+        if (!isset($manager->manager_id)) {
+            $manager = new Manager();
+        }
+        $manager->manager_name = $managerInfo['manager_name'];
+        $manager->manager_pwd = md5($managerInfo['manager_pwd']);
+        $manager->manager_email = $managerInfo['manager_email'];
+        $manager->manager_mobile = $managerInfo['manager_mobile'];
+        $manager->is_super = ($managerInfo['role']==1)?1:0;
+        $manager->is_freeze = 0;
+        $manager->last_login_time = time();
+        $manager->save();
+        return $manager->manager_id;
     }
 
     /**
-     * 给管理员分配权限
+     * 给管理员分配角色
      */
     public function managerToRole($managerId,$roleId)
     {
         $manager = new Manager();
+        $manager->deleteRole($managerId);
         $data = [
             'manager_id' => $managerId,
             'role_id' => $roleId,
         ];
         return $manager->toRole($data);
+    }
+
+    /**
+     * 冻结用户
+     */
+    public function freeze($managerId)
+    {
+        $managerInfo = Manager::find($managerId);
+        $loginId = session()->get('managerInfo')->manager_id;
+        if ($loginId == $managerInfo->manager_id){
+            return 0;
+        } else {
+            $is_freeze = $managerInfo->is_freeze?0:1;
+            $result = Manager::where(['manager_id'=>$managerId])->update(['is_freeze'=>$is_freeze]);
+            return $result;
+        }
+    }
+
+    /**
+     * 删除管理员
+     */
+    public function delete($managerId)
+    {
+        $managerInfo = Manager::find($managerId);
+        $loginId = session()->get('managerInfo')->manager_id;
+        if ($loginId == $managerInfo->manager_id){
+            return 0;
+        } else {
+            $manager = new Manager();
+            Manager::where(['manager_id'=>$managerId])->delete();
+            $result = $manager->deleteRole($managerId);
+            return $result;
+        }
     }
 }
