@@ -14,9 +14,9 @@
                 <div class="col-sm-10">
                     @foreach ($menus as $key => $value)
                         @if ($value->parent_id == 0)
-                            <p class="clear"><b><input onchange="parent({{$value->menu_id}})" type="checkbox"  name="menus[]" id="parent_{{$value->menu_id}}">{{$value->menu_name}}</b></p>
+                            <p class="clear"><b><input onchange="parent({{$value->menu_id}})" type="checkbox"  name="menus[]" id="parent_{{$value->menu_id}}" value="{{$value->menu_id}}">{{$value->menu_name}}</b></p>
                         @else
-                            <p class="clear">{{str_repeat('|——',substr_count($value->path,'-'))}}<input onchange="child({{$value->parent_id}})" type="checkbox" name="menus[]" id="parent_{{$value->menu_id}}" class="child_{{$value->parent_id}}">{{$value->menu_name}}</p>
+                            <p class="clear">{{str_repeat('|——',substr_count($value->path,'-'))}}<input onchange="child({{$value->parent_id}})" type="checkbox" name="menus[]" id="parent_{{$value->menu_id}}" class="child_{{$value->parent_id}}" value="{{$value->menu_id}}">{{$value->menu_name}}</p>
                         @endif
                     @endforeach
                 </div>

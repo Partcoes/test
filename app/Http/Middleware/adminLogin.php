@@ -22,11 +22,11 @@ class adminLogin
 
         //获取用户权限
         $userService = new UserService();
-        $data = $userService->getUserMenu();
+        $data = $userService->getUserAccess();
         $access = $userService->getAccess($data);
-        if (ltrim($request->getRequestUri(),'/') != 'admin') {
-            if (!in_array(ltrim($request->getRequestUri(),'/'),$access)) {
-                return redirect('/warning')->with(['message'=>'没有此权限，请联系管理员','url'=>'admin','jumpTime'=>3,'status'=>false]);
+        if (ltrim($request->getPathInfo(),'/') != 'admin') {
+            if (!in_array(ltrim($request->getPathInfo(),'/'),$access)) {
+                return redirect('/warning')->with(['message'=>'没有此权限，请联系管理员','url'=>'admin/users/list','jumpTime'=>3,'status'=>false]);
             }
         }
         return $next($request);
