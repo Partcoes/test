@@ -91,7 +91,7 @@ class RolesController extends Controller
     {
         if ($request->isMethod('post')) {
             $this->validate($request,[
-                'role_name' => 'required|unique:roles,role_name',
+                'role_name' => 'required',
                 'menus' => 'required',
             ]);
             $result =$this->roleService->createRole($request);
