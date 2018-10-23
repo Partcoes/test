@@ -15,7 +15,9 @@
             </div>
             <div class="form-group" style="height:45px;">
                 <label class="col-sm-2 control-label" for="manager_email">管理员邮箱</label>
-                <div class="col-sm-10"><input class="form-control" type="text" name="manager_email" id="manager_email" placeholder="管理员邮箱" value="{{isset($default->manager_email)?$default->manager_email:''}}"></div>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="manager_email" id="manager_email" placeholder="管理员邮箱" value="{{isset($default->manager_email)?$default->manager_email:''}}" {{isset($default->manager_email)?'disabled':''}}>
+                </div>
             </div>
             <div class="form-group" style="height:45px;">
                 <label class="col-sm-2 control-label" for="manager_mobile">管理员手机</label>
