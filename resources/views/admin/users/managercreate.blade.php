@@ -1,8 +1,8 @@
 @extends('admin.index.index')
 @section('content')
     <form action="{{URL::asset('admin/users')}}" method="post">
-    <div class="box box-primary">
-        <div class="box-header with-border"><h3>添加管理员</h3></div>
+    <div class="box box-info">
+        <div class="box-header with-border"><h3>管理员信息</h3></div>
         <div class="box-body">
             @csrf
             <div class="form-group" style="height:45px;">

@@ -19,6 +19,14 @@ class MenuService
     }
 
     /**
+     * 权限分页
+     */
+    public function getMenusPaginate()
+    {
+        return Menu::orderBy('path')->paginate(10);
+    }
+
+    /**
      * 添加菜单
      */
     public function createMenu($request)
