@@ -29,4 +29,12 @@ class Role extends Model
     {
         return DB::table($this->table)->insertGetId($data);
     }
+
+    /**
+     * 删除角色对应的列表
+     */
+    public function removeManagerToRole($roleId)
+    {
+        return DB::table('manager2role')->where(['role_id'=>$roleId])->delete();
+    }
 }

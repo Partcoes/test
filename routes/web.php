@@ -41,8 +41,12 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware'=>'adminLogin']
     Route::get('roles/show','RolesController@show');//查看角色权限
     Route::post('roles','RolesController@store');//添加角色
     Route::get('roles/create','RolesController@create');//创建角色表单
+    Route::match(['get','post'],'roles/edit','RolesController@edit');//修改角色信息
+    Route::get('roles/delete','RolesController@delete');//删除角色信息
     Route::get('menus/list','MenusController@index');//菜单列表
     Route::post('menus','MenusController@store');//添加菜单
     Route::get('menus/create','MenusController@create');//创建菜单表单
+    Route::get('menus/edit','MenusController@edit');//编辑菜单
+    Route::get('menus/delete','MenusController@delete');//菜单删除
     Route::match(['get','post'],'roles/update','RolesController@update');//修改角色权限
 });

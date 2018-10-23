@@ -22,12 +22,4 @@ class Menu extends Model
         $path = DB::table($this->table)->where(['menu_id'=>$parent_id])->select('path')->first()->path;
         return $path;
     }
-
-    /**
-     * 添加菜单
-     */
-    public function createMenu($data)
-    {
-        return DB::table($this->table)->insertGetId($data);
-    }
 }

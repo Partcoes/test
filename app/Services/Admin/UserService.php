@@ -158,7 +158,7 @@ class UserService
     }
 
     /**
-     * 给管理员分配权限
+     * 给管理员分配角色
      */
     public function managerToRole($managerId,$roleId)
     {
