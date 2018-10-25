@@ -16,7 +16,7 @@
             <div class="form-group" style="height:45px;">
                 <label class="col-sm-2 control-label" for="manager_email">管理员邮箱</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" name="manager_email" id="manager_email" placeholder="管理员邮箱" value="{{isset($default->manager_email)?$default->manager_email:''}}" {{isset($default->manager_email)?'disabled':''}}>
+                    <input class="form-control" type="text" name="manager_email" id="manager_email" placeholder="管理员邮箱" value="{{isset($default->manager_email)?$default->manager_email:''}}">
                 </div>
             </div>
             <div class="form-group" style="height:45px;">

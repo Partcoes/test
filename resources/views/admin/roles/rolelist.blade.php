@@ -13,8 +13,8 @@
             <td><input type="checkbox" name="" id=""></td>
             <td>{{$value->role_name}}</td>
             <td>
-                <a href="{{URL::asset('/admin/roles/show?roleId='.$value->role_id)}}"><button class="btn btn-default btn-sm" title="查看权限"><i class="glyphicon glyphicon-list-alt"></i></button></a>
-                <a href="{{URL::asset('/admin/roles/edit?roleId='.$value->role_id)}}"><button class="btn btn-default btn-sm" title="修改权限"><i class="fa fa-edit"></i></button></a>
+                <a href="{{URL::asset('/admin/roles/show?roleId='.$value->role_id)}}"><button class="btn btn-default btn-sm" title="查看权限"><i class="fa fa-list"></i></button></a>
+                <a href="{{URL::asset('/admin/roles/edit?roleId='.$value->role_id)}}"><button class="btn btn-default btn-sm" title="编辑"><i class="fa fa-edit"></i></button></a>
                 <a href="{{URL::asset('/admin/roles/delete?roleId='.$value->role_id)}}"><button class="btn btn-default btn-sm" title="删除"><i class="fa fa-trash-o"></i></button></a>
             </td>
         </tr>

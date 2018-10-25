@@ -15,8 +15,8 @@ class WarningController extends Controller
             $data = [
                 'message' => session('message'),
                 'url' => session('url'),
-                'jumpTime' => session('jumpTime'),
-                'status' => session('status')
+                'jumpTime' => session('jumpTime')?:3,
+                'status' => session('status')?:false,
             ];
         } else {
             $data = [

@@ -12,7 +12,7 @@
             <div class="form-group" style="height:45px;">
                 <label class="col-sm-2 control-label" for="menu_uri">菜单uri</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" name="menu_uri" id="menu_uri" placeholder="菜单uri" value="{{isset($default->menu_uri)?$default->menu_uri:''}}" {{isset($default->menu_uri)?'disabled':''}}>
+                    <input class="form-control" type="text" name="menu_uri" id="menu_uri" placeholder="菜单uri" value="{{isset($default->menu_uri)?$default->menu_uri:''}}">
                 </div>
             </div>
             <div class="form-group" style="height:45px;">
