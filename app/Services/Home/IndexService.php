@@ -3,7 +3,6 @@ namespace App\Services\Home;
 
 use App\Model\Good;
 use App\Model\Type;
-use App\Model\Brand;
 
 class IndexService
 {
@@ -12,7 +11,7 @@ class IndexService
      */
     public function getTypesInfo()
     {
-        $typesInfo = Type::get();
+        $typesInfo = Type::where(['parent_id'=>0])->paginate(8);
         return $typesInfo;
     }
 
@@ -22,7 +21,7 @@ class IndexService
     public function getAllGoodsInfo()
     {
         // $allGoodsInfo = Brand::get()->good;
-        $allGoodsInfo = Brand::join('goods', 'goods.brand_id', '=', 'brands.brand_id')->get();
+        $allGoodsInfo = Type::join('goods', 'goods.type_id', '=', 'types.type_id')->get();
         $allGoodsInfo = $this->getTree($allGoodsInfo);
         return $allGoodsInfo;
     }
@@ -33,12 +32,12 @@ class IndexService
     function getTree($data)
     {
         foreach ($data as $key => $item) {
-            $brands[] = $item->brand_name;
+            $types[] = $item->type_name;
         }
         $allGoodsInfo = [];
-        foreach (array_unique($brands) as $key => $item) {
+        foreach (array_unique($types) as $key => $item) {
             foreach ($data as $k => $v) {
-                if ($v->brand_name == $item) {
+                if ($v->type_name == $item) {
                     $allGoodsInfo[$item][] = $v;
                 }
             }
