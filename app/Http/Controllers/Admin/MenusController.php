@@ -24,7 +24,7 @@ class MenusController extends Controller
      */
     public function index()
     {
-        $menus = $this->menuService->getMenus();
+        $menus = $this->menuService->getMenusPaginate();
         return view('admin.menus.menuslist',['menus'=>$menus]);
     }
 

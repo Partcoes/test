@@ -29,5 +29,8 @@
                 @endforeach
             </table>
         </div>
+        <div class="box-footer" style="text-align:right;">
+            {{$menus->links()}}
+        </div>
     </div>
 @endsection
