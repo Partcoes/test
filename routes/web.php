@@ -49,4 +49,18 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware'=>'adminLogin']
     Route::get('menus/edit','MenusController@edit');//编辑菜单
     Route::get('menus/delete','MenusController@delete');//菜单删除
     Route::match(['get','post'],'roles/update','RolesController@update');//修改角色权限
+    Route::get('goods/list','GoodsController@list');//商品列表展示
+    Route::get('goods/create','GoodsController@create');//创建商品
+    Route::get('types/list','TypesController@list');//分类列表
+    Route::get('types/create','TypesController@create');//添加分类表单
+    Route::post('types','TypesController@store');//添加分类
+    Route::get('types/delete','TypesController@delete');//删除分类
+    Route::get('types/edit','TypesController@edit');//编辑分类
+    Route::get('types/getattrsform','TypesController@getAttrsForm');
+    Route::post('types/getattrs','TypesController@getattrs');
+    Route::get('attributes/list','AttrsController@list');//属性列表
+    Route::get('attributes/create','AttrsController@create');//添加属性表单
+    Route::post('attributes','AttrsController@store');//添加属性
+    Route::get('attributes/delete','AttrsController@delete');//删除属性
+    Route::get('attributes/edit','AttrsController@edit');//编辑属性
 });
