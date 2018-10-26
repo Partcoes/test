@@ -24,6 +24,6 @@ class Attr extends Model
      */
     public function types()
     {
-        return $this->hasOne('\App\Model\Type','type_id','type_id');
+        return $this->belongsToMany('\App\Model\Type','type_attr','attr_id','type_id');
     }
 }

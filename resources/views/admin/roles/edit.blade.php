@@ -8,6 +8,7 @@
             <div class="form-group" style="height:45px;">
                 <label class="col-sm-2 control-label" for="role_name">角色名称</label>
                 <div class="col-sm-10">
+                    <input type="hidden" name="role_id" value="{{$role->role_id}}">
                     <input type="hidden" name="role_name" value="{{$role->role_name}}">
                     <p style="font-size:20px;"><b>{{$role->role_name}}</b></p>
                 </div>

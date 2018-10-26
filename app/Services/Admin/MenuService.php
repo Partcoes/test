@@ -32,8 +32,9 @@ class MenuService
     public function createMenu($request)
     {
         $menuInfo = $request->input();
-        $menu = Menu::where(['menu_uri'=>$menuInfo['menu_uri']])->first();
-        if  (!isset($menu->menu_id)) {
+        if  (isset($menuInfo['menu_id'])) {
+            $menu = Menu::where(['menu_id'=>$menuInfo['menu_id']])->first();
+        } else {
             $menu = new Menu();
         }
         if ($request->input('parent_id') != 0) {

@@ -56,7 +56,11 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware'=>'adminLogin']
     Route::post('types','TypesController@store');//添加分类
     Route::get('types/delete','TypesController@delete');//删除分类
     Route::get('types/edit','TypesController@edit');//编辑分类
+    Route::get('types/getattrsform','TypesController@getAttrsForm');
+    Route::post('types/getattrs','TypesController@getattrs');
     Route::get('attributes/list','AttrsController@list');//属性列表
     Route::get('attributes/create','AttrsController@create');//添加属性表单
     Route::post('attributes','AttrsController@store');//添加属性
+    Route::get('attributes/delete','AttrsController@delete');//删除属性
+    Route::get('attributes/edit','AttrsController@edit');//编辑属性
 });

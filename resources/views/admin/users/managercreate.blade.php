@@ -5,6 +5,7 @@
         <div class="box-header with-border"><h3>管理员信息</h3></div>
         <div class="box-body">
             @csrf
+            <input type="hidden" name="manager_id" value="{{isset($default->manager_id)?$default->manager_id:''}}"  {{isset($default->manager_id)?'':'disabled'}}>
             <div class="form-group" style="height:45px;">
                 <label class="col-sm-2 control-label" for="manager_name">管理员名称</label>
                 <div class="col-sm-10"><input class="form-control" type="text" name="manager_name" id="manager_name" placeholder="管理员姓名" value="{{isset($default->manager_name)?$default->manager_name:''}}"></div>

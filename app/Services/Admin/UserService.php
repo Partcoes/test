@@ -142,8 +142,9 @@ class UserService
     public function createManager($request)
     {
         $managerInfo = $request->input();
-        $manager = Manager::where(['manager_email'=>$managerInfo['manager_email']])->first();
-        if (!isset($manager->manager_id)) {
+        if (isset($managerInfo['manager_id'])) {
+            $manager = Manager::where(['manager_email'=>$managerInfo['manager_email']])->first();
+        } else {
             $manager = new Manager();
         }
         $manager->manager_name = $managerInfo['manager_name'];

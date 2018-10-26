@@ -5,6 +5,7 @@
         <div class="box-header with-border"><h3>菜单信息</h3></div>
         <div class="box-body">
             @csrf
+            <input type="hidden" name="menu_id" value="{{isset($default->menu_id)?$default->menu_id:''}}" {{isset($default->menu_id)?'':'disabled'}}>
             <div class="form-group" style="height:45px;">
                 <label class="col-sm-2 control-label" for="menu_name">菜单名称</label>
                 <div class="col-sm-10"><input class="form-control" type="text" name="menu_name" id="menu_name" placeholder="菜单名称" value="{{isset($default->menu_name)?$default->menu_name:''}}"></div>
@@ -18,8 +19,8 @@
             <div class="form-group" style="height:45px;">
                 <label class="col-sm-2 control-label" for="menu_uri">是否是菜单</label>
                 <div class="col-sm-10">
-                    <div class="col-sm-5"><input type="radio" name="is_menu" id="" value="1" {{isset($default->is_menu)&&$default?'checked':''}}>是</div>
-                    <div class="col-sm-5"><input type="radio" name="is_menu" id="" value="0" {{isset($default->is_menu)&&$default?'checked':''}}>否</div>
+                    <div class="col-sm-5"><input type="radio" name="is_menu" id="" value="1" {{isset($default->is_menu)&&$default->is_menu?'checked':''}}>是</div>
+                    <div class="col-sm-5"><input type="radio" name="is_menu" id="" value="0" {{isset($default->is_menu)&&$default->is_menu?'':'checked'}}>否</div>
                 </div>
             </div>
             <div class="form-group" style="height:45px;">

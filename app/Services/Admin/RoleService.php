@@ -34,9 +34,8 @@ class RoleService
     {
         $role = new Role();
         $role_name = $request->input('role_name');
-        $roleInfo = Role::where(['role_name'=>$role_name])->first();
-        if (isset($roleInfo->role_id)) {
-            $roleId = $roleInfo->role_id;
+        if ($request->input('role_id')) {
+            $roleId = $request->input('role_id');
             Resource::where(['role_id'=>$roleId])->delete();
         } else {
             $roleId = $role->getInsertId(['role_name'=>$role_name]);
