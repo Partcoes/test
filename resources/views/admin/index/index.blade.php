@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @section('content')
     <div id="index">
-        <span>欢迎登录小米商城后台控制中心</span>
+        <h4>欢迎登录小米商城后台控制中心</h4>
     </div>
 @endsection
 @section('css')
@@ -10,13 +10,16 @@
         {
             width:100%;
             height:880px;
-            font-size:65px;
-            text-align:center;
-            line-height:300px;
-            color:orange;
             background-image:url('/images/mi.jpg');
             background-repeat:no-repeat;
             background-size:100%;
+        }
+        h4{
+            position:abslute;
+            font-size:2rem;
+            line-height:80px;
+            text-align:center;
+            color:orange;
         }
     </style>
 @endsection

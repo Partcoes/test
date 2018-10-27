@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Admin\GoodService;
 use App\Services\Admin\TypeService;
 use App\Services\Admin\AttrService;
+use App\Services\Admin\ValueService;
 
 class AttrsController extends Controller
 {
@@ -14,6 +15,7 @@ class AttrsController extends Controller
     protected $typeService;
     protected $goodService;
     protected $attrService;
+    protected $valueService;
 
     /**
      * 初始化service
@@ -23,6 +25,7 @@ class AttrsController extends Controller
         $this->typeService = new TypeService();
         $this->goodService = new GoodService();
         $this->attrService = new AttrService();
+        $this->valueService = new ValueService();
     }
 
     /**
@@ -82,11 +85,20 @@ class AttrsController extends Controller
     public function edit(Request $request)
     {
         if ($request->isMethod('post')) {
-
+            $attr_id = $request->input('attr_id');
+            $attr_name = $request->input('attr_name');
+            $attr_values = $request->input('attr_values');
+            $attr_values = explode('-',$attr_values);
+            if ($this->attrService->updateAttr($attr_id,$attr_name) && $this->valueService->createAttrValue($attr_id,$attr_values)) {
+                return redirect('/warning')->with(['message'=>'修改成功','url'=>'/admin/attributes/list','jumpTime'=>3,'status'=>'true']);
+            } else {
+                return redirect('/warning')->with(['message'=>'修改失败','url'=>'/admin/attributes/list','jumpTime'=>3,'status'=>'false']);
+            }
         } else {
             $attrId = $request->attrId;
             $attrInfo = $this->attrService->getAttrById($attrId);
-            return view('admin.attrs.attrandval',['attrInfo'=>$attrInfo]);
+            $valueStr = $this->valueService->getValueById($attrId);
+            return view('admin.attrs.attrandval',['attrInfo'=>$attrInfo,'valueStr'=>$valueStr]);
         }
         
     }

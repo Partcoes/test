@@ -5,15 +5,15 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Admin\GoodService;
-use App\Services\Admin\BrandService;
+use App\Services\Admin\TypeService;
 use App\Services\Admin\AttrService;
 
 class GoodsController extends Controller
 {
     //定义变量
     protected $goodService;
-    protected $brandService;
     protected $attrService;
+    protected $typeService;
 
     /**
      * 初始化service
@@ -21,8 +21,8 @@ class GoodsController extends Controller
     public function __construct()
     {
         $this->goodService = new GoodService();
-        $this->brandService = new BrandService();
         $this->attrService = new AttrService();
+        $this->typeService = new TypeService();
     }
 
     /**
@@ -39,8 +39,8 @@ class GoodsController extends Controller
      */
     public function create()
     {
-        $brands = $this->brandService->getBrands();
+        $types = $this->typeService->getTypes();
         $attrs = $this->attrService->getAttrs();
-        return view('admin.goods.goodscreate',['brands'=>$brands,'attrs'=>$attrs]);
+        return view('admin.goods.goodscreate',['types'=>$types,'attrs'=>$attrs]);
     }
 }

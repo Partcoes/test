@@ -62,5 +62,5 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware'=>'adminLogin']
     Route::get('attributes/create','AttrsController@create');//添加属性表单
     Route::post('attributes','AttrsController@store');//添加属性
     Route::get('attributes/delete','AttrsController@delete');//删除属性
-    Route::get('attributes/edit','AttrsController@edit');//编辑属性
+    Route::match(['get','post'],'attributes/edit','AttrsController@edit');//编辑属性
 });

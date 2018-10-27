@@ -50,4 +50,9 @@ class AttrService
     /**
      * 编辑属性
      */
+    public function updateAttr($attr_id,$attr_name)
+    {
+        Attr::where(['attr_id'=>$attr_id])->update(['attr_name'=>$attr_name]);
+        return true;
+    }
 }

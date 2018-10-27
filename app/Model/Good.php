@@ -15,8 +15,8 @@ class Good extends Model
     /**
      * 关联品牌表
      */
-    public function brands()
+    public function types()
     {
-        return $this->hasOne('\App\Model\Brand','brand_id','brand_id');
+        return $this->hasOne('\App\Model\Type','type_id','type_id');
     }
 }

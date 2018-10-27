@@ -41,14 +41,14 @@ class MenuService
             $path = $menu->getParentPath($request->input('parent_id'));
         }
         $path = isset($path)?$path:0;
-        $menu->menu_name = $menuInfo['menu_name'];
-        $menu->menu_uri = $menuInfo['menu_uri'];
-        $menu->is_menu = $menuInfo['is_menu'];
-        $menu->parent_id = $menuInfo['parent_id'];
-        $menu->path = $path;
-        $menu->save();
         DB::beginTransaction();
         try {
+            $menu->menu_name = $menuInfo['menu_name'];
+            $menu->menu_uri = $menuInfo['menu_uri'];
+            $menu->is_menu = $menuInfo['is_menu'];
+            $menu->parent_id = $menuInfo['parent_id'];
+            $menu->path = $path;
+            $menu->save();
             $menu_id = $menu->menu_id;
             $path = $path?$path.'-'.$menu_id:$menu_id;
             $result = Menu::where(['menu_id'=>$menu_id])->update(['path'=>$path]);
