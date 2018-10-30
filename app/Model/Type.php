@@ -41,4 +41,12 @@ class Type extends Model
     {
         return DB::table('type_attr')->where(['type_id'=>$typeId])->delete();
     }
+
+    /**
+     * 通过分类查找属性id
+     */
+    public function getAttrIds($typeId)
+    {
+        return DB::table('type_attr')->where(['type_id'=>$typeId])->get();
+    }
 }

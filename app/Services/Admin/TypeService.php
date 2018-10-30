@@ -34,15 +34,6 @@ class TypeService extends Controller
     }
 
     /**
-     * 文件上传
-     */
-    public function fileUpload($request)
-    {
-        $path = $request->file('type_img')->store('images');
-        return $path;
-    }
-
-    /**
      * 添加分类
      */
     public function createType($request,$fileUpload)
@@ -118,5 +109,23 @@ class TypeService extends Controller
             DB::rollBack();
         }
         return $result;
+    }
+
+    /**
+     * 通过分类id获取属性
+     */
+    public function getAttrsBytype($typeId)
+    {
+        $type = new Type();
+        $attrs = $type->getAttrIds($typeId);
+        foreach ($attrs as $key => $value) {
+            $attrIds[] = $value->attr_id;
+        }
+        $attrsInfo = Attr::whereIn('attr_id',$attrIds)->get();
+        foreach ($attrsInfo as $key => $value) {
+            $data[$key]['attr_id'] = $value->attr_id;
+            $data[$key]['attr_name'] = $value->attr_name;
+        }
+        return $data;
     }
 }

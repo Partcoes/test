@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Admin\GoodService;
 use App\Services\Admin\TypeService;
 use App\Services\Admin\AttrService;
+use App\Services\Admin\ValueService;
 
 class GoodsController extends Controller
 {
@@ -14,6 +15,7 @@ class GoodsController extends Controller
     protected $goodService;
     protected $attrService;
     protected $typeService;
+    protected $valueService;
 
     /**
      * 初始化service
@@ -23,6 +25,7 @@ class GoodsController extends Controller
         $this->goodService = new GoodService();
         $this->attrService = new AttrService();
         $this->typeService = new TypeService();
+        $this->valueService = new ValueService();
     }
 
     /**
@@ -42,5 +45,26 @@ class GoodsController extends Controller
         $types = $this->typeService->getTypes();
         $attrs = $this->attrService->getAttrs();
         return view('admin.goods.goodscreate',['types'=>$types,'attrs'=>$attrs]);
+    }
+
+    /**
+     * sku管理页面
+     */
+    public function sku(Request $request)
+    {
+        $allAttrVal = $request->input('allAttrVal');
+        $skuList = $this->valueService->getSkuList($allAttrVal);
+        if (!$skuList) {
+            return 'false';
+        }
+        return $skuList;
+    }
+
+    /**
+     * 商品信息添加
+     */
+    public function store(Request $request)
+    {
+        dd($request->input());
     }
 }

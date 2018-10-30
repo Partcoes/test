@@ -5,15 +5,16 @@ use \App\Model\Good;
 use \App\Model\Brand;
 use \App\Model\Attr;
 use \App\Model\Value;
+use DB;
 
 class AttrService
 {
     /**
-     * 查找所有品牌
+     * 查找所有属性
      */
     public function getAttrs()
     {
-        return Attr::get();
+        return Attr::where(['is_delete'=>1])->get();
     }
 
     /**
@@ -36,7 +37,18 @@ class AttrService
      */
     public function deleteAttr($attrId)
     {
-        return Attr::where(['attr_id'=>$attrId])->delete();
+        DB::beginTransaction();
+        try {
+            Attr::where(['attr_id'=>$attrId])->update(['is_delete'=>0]);
+            Value::where(['attr_id'=>$attrId])->update(['is_delete'=>0]);
+            $result = true;
+            DB::commit();
+            
+        } catch (\Expection $e) {
+            $result = $e->getMessage();
+            DB::rollBack();
+        }
+        return $result;
     }
 
     /**

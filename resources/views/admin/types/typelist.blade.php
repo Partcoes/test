@@ -26,9 +26,9 @@
                         </td>
                         <td><img src="{{URL::asset('/uploads/'.$value->type_img)}}" alt="分类图片" width="60"></td>
                         <td>
-                            <a href="{{URL::asset('/admin/types/getattrsform?typeId='.$value->type_id)}}"><button class="btn btn-default btn-sm" title="分配属性"><i class="fa fa-plus-square"></i></button></a>
-                            <a href="{{URL::asset('/admin/types/edit?typeId='.$value->type_id)}}"><button class="btn btn-default btn-sm" title="编辑"><i class="fa fa-edit"></i></button></a>
-                            <a href="{{URL::asset('/admin/types/delete?typeId='.$value->type_id)}}"><button class="btn btn-default btn-sm" title="删除"><i class="fa fa-trash-o"></i></button></a>
+                            <a href="{{URL::asset('/admin/types/getattrsform?typeId='.$value->type_id)}}"><button class="btn btn-default btn-sm" data-toggle="tooltip" title="分配属性"><i class="fa fa-plus-square"></i></button></a>
+                            <a href="{{URL::asset('/admin/types/edit?typeId='.$value->type_id)}}"><button class="btn btn-default btn-sm" data-toggle="tooltip" title="编辑"><i class="fa fa-edit"></i></button></a>
+                            <a href="{{URL::asset('/admin/types/delete?typeId='.$value->type_id)}}"><button class="btn btn-default btn-sm" data-toggle="tooltip" title="删除"><i class="fa fa-trash-o"></i></button></a>
                         </td>
                     </tr>
                 @endforeach
@@ -38,4 +38,11 @@
             {{$types->links()}}
         </div>
     </div>
+@endsection
+@section('js')
+<script>
+    $(function(){
+        $("[data-toggle='tooltip']").tooltip();
+    });
+</script>
 @endsection

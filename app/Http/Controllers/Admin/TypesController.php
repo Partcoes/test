@@ -56,7 +56,7 @@ class TypesController extends Controller
             ]);
             $fileUpload = '';
             if ($request->file('type_img')) {
-                $fileUpload = $this->typeService->fileUpload($request);
+                $fileUpload = $request->file('type_img')->store('typefiles');
             }
             $createType = $this->typeService->createType($request,$fileUpload);
             if ($createType) {
@@ -118,5 +118,18 @@ class TypesController extends Controller
         } else {
             return redirect('/warning')->with(['message'=>'添加失败','url'=>'/admin/types/getattrsform','jumpTime'=>3,'status'=>'true']);
         }
+    }
+
+    /**
+     * 通过分类获取属性
+     */
+    public function getattrsbytype(Request $request)
+    {
+        $typeId = $request->typeId;
+        if ($typeId == 0) {
+            return 0;
+        }
+        $attrs = $this->typeService->getAttrsBytype($typeId);
+        return $attrs;
     }
 }

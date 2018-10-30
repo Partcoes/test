@@ -41,4 +41,65 @@ class ValueService
         }
         return ltrim($valueStr,'-');
     }
+
+    /**
+     * 获取sku列表
+     */
+    public function getSkuList($data)
+    {
+        if (!empty($data)) {
+            if (count($data) == 1) {
+                foreach ($data as $key => $value) {
+                    $skuList = $value;
+                }
+            } else {
+                $skuList = $this->CartesianProduct(array_values($data));
+            }
+        } else {
+            return false;
+        }
+        foreach ($skuList as $key => $value) {
+            $ids = explode(',',$value);
+            $attr_val_name[] = Value::whereIn('attr_val_id',$ids)->get();
+            foreach ($attr_val_name as $key => $value) {
+                $idstr = '';
+                $valstr = '';
+                foreach ($value as $k => $item) {
+                    $idstr .= ','.$item['attr_val_id'];
+                    $valstr .= ','.$item['attr_val_name'];
+                }
+            }
+            $result[] = [
+                'idstr' => ltrim($idstr,','),
+                'valstr' => ltrim($valstr,','),
+            ];
+        }
+        return $result;
+    }
+
+    /**
+     * 计算多个集合的笛卡尔积
+     */
+    public function CartesianProduct($data){
+        // 保存结果
+        $result = array();
+        // 循环遍历集合数据
+        for($i=0,$count=count($data); $i<$count-1; $i++){
+            // 初始化
+            if($i==0){
+                $result = $data[$i];
+            }
+            // 保存临时数据
+            $tmp = array();
+            // 结果与下一个集合计算笛卡尔积
+            foreach($result as $res){
+                foreach($data[$i+1] as $set){
+                    $tmp[] = $res.','.$set;
+                }
+            }
+            // 将笛卡尔积写入结果
+            $result = $tmp;
+        }
+        return $result;
+    }
 }

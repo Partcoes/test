@@ -69,7 +69,7 @@ class AttrsController extends Controller
     public function delete(Request $request)
     {
         $attrId = $request->input('attrId');
-        $result = $this->attrService->deleteAttr();
+        $result = $this->attrService->deleteAttr($attrId);
         if ($result) {
             if ($result) {
                 return redirect('/warning')->with(['message'=>'删除成功','url'=>'/admin/attributes/list','jumpTime'=>3,'status'=>'true']);

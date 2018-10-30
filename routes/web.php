@@ -49,8 +49,11 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware'=>'adminLogin']
     Route::get('menus/edit','MenusController@edit');//编辑菜单
     Route::get('menus/delete','MenusController@delete');//菜单删除
     Route::match(['get','post'],'roles/update','RolesController@update');//修改角色权限
+    Route::post('goods','GoodsController@store');//商品添加操作
     Route::get('goods/list','GoodsController@list');//商品列表展示
     Route::get('goods/create','GoodsController@create');//创建商品
+    Route::post('goods/sku','GoodsController@sku');//sku管理页面
+    Route::get('types/getattrsbytype','TypesController@getattrsbytype');//通过分类获取属性
     Route::get('types/list','TypesController@list');//分类列表
     Route::get('types/create','TypesController@create');//添加分类表单
     Route::post('types','TypesController@store');//添加分类
