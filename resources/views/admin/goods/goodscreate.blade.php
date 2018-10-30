@@ -111,11 +111,13 @@
                     <div class="col-sm-12">
                         <table class="table table-hover table-bordered">
                             <thead>
-                                <td>组合类型</td>
-                                <td>价格</td>
-                                <td>库存</td>
-                                <td>重量</td>
-                                <td>操作</td>
+                                <tr>
+                                    <td>组合类型</td>
+                                    <td>价格</td>
+                                    <td>库存</td>
+                                    <td>重量</td>
+                                    <td>操作</td>
+                                </tr>
                             </thead>
                             <tbody id="skuDetail">
 
