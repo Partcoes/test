@@ -52,9 +52,12 @@ class GoodsController extends Controller
      */
     public function sku(Request $request)
     {
-        $allAttrVal = $request->input('allAttrVal');
-        $skuList = $this->valueService->getSkuList($allAttrVal);
-        if (!$skuList) {
+        $allAttrData = $request->input();
+        unset($allAttrData['_token']);
+        foreach ($allAttrData as $value) {
+            $skuList[] = $this->valueService->getSkuList($value);
+        }
+        if (!$skuList[0]) {
             return 'false';
         }
         return $skuList;
@@ -65,6 +68,6 @@ class GoodsController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->input());
+        dd($request->file());
     }
 }

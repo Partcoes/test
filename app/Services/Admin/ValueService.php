@@ -58,23 +58,7 @@ class ValueService
         } else {
             return false;
         }
-        foreach ($skuList as $key => $value) {
-            $ids = explode(',',$value);
-            $attr_val_name[] = Value::whereIn('attr_val_id',$ids)->get();
-            foreach ($attr_val_name as $key => $value) {
-                $idstr = '';
-                $valstr = '';
-                foreach ($value as $k => $item) {
-                    $idstr .= ','.$item['attr_val_id'];
-                    $valstr .= ','.$item['attr_val_name'];
-                }
-            }
-            $result[] = [
-                'idstr' => ltrim($idstr,','),
-                'valstr' => ltrim($valstr,','),
-            ];
-        }
-        return $result;
+        return $skuList;
     }
 
     /**
