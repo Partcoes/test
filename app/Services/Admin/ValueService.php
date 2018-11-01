@@ -47,16 +47,12 @@ class ValueService
      */
     public function getSkuList($data)
     {
-        if (!empty($data)) {
-            if (count($data) == 1) {
-                foreach ($data as $key => $value) {
-                    $skuList = $value;
-                }
-            } else {
-                $skuList = $this->CartesianProduct(array_values($data));
+        if (count($data) == 1) {
+            foreach ($data as $key => $value) {
+                $skuList = $value;
             }
         } else {
-            return false;
+            $skuList = $this->CartesianProduct(array_values($data));
         }
         return $skuList;
     }

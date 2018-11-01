@@ -19,4 +19,12 @@ class Good extends Model
     {
         return $this->hasOne('\App\Model\Type','type_id','type_id');
     }
+
+    /**
+     * 添加商品属性
+     */
+    public function createGoodAttr($data)
+    {
+        return DB::table('goods_attrs')->insert($data);
+    }
 }

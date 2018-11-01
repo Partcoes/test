@@ -102,4 +102,14 @@ class AttrsController extends Controller
         }
         
     }
+
+    /**
+     * 通过属性attrIds获取属性值
+     */
+    public function getattrval(Request $request)
+    {
+        $attrIds = $request->input('attrIds');
+        $result = $this->attrService->getAttrValByAttrId($attrIds);
+        return $result;
+    }
 }

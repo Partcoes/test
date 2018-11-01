@@ -4,6 +4,8 @@ namespace App\Services\Admin;
 use \App\Model\Good;
 use \App\Model\Brand;
 use \App\Model\Attr;
+use \App\Model\Sku;
+use DB;
 
 class GoodService
 {
@@ -13,6 +15,15 @@ class GoodService
     public function GoodsListPagenate()
     {
         return Good::paginate(10);
+    }
+
+    /**
+     * 通过商品id获取商品详情
+     */
+    public function getGoodDetail($goodId)
+    {
+        $goodInfo = Good::where(['good_id'=>$goodId])->first();
+        return $goodInfo;
     }
 
     /**
@@ -31,30 +42,82 @@ class GoodService
     }
 
     /**
-     * 处理商品数据
+     * 生成商品信息入库
      */
-    public function createGoodInfo($data)
+    public function createGoodInfo($goodInfo,$good_num)
     {
-        $news = $data['news'];
-        foreach ($news as $key => $value) {
-            if(!empty($value)) {
-                $values = explode('-',$value);
-                foreach ($values as $k => $item) {
-                    $data['attr_values'][$key][] = Value::insertGetId(['attr_id'=>$key,'attr_val_name'=>$item]);
-                }
-            }
-        }
         $good = new Good();
         $good->good_sn = $this->createOsn();
-        $good->good_name = $data['good_name'];
-        $good->type_id = $data['type_id'];
-        $good->description = $data['description'];
-        $good->good_price = intval($data['good_price']*100);
-        $good->good_num = $data['good_num'];
-        $good->is_delete = 0;
-        $good->good_img = isset($data['good_img'])?$data['good_img']:'';
+        $good->good_name = $goodInfo['good_name'];
+        $good->type_id = $goodInfo['type_id'];
+        $good->description = $goodInfo['description'];
+        $good->good_price = intval($goodInfo['good_price']*100);
+        $good->good_num = $good_num;
         $good->create_time = $good->update_time = time();
-        $good->save();
-        return $good->good_id;
+        return $good;
+    }
+    
+    /**
+     * 处理sku信息
+     */
+    public function createSkuList($goodInfo)
+    {
+        $skuList = [];
+        $sku = new Sku();
+        $length = count($goodInfo['sku_strs']);
+        for ($i = 0 ; $i < $length ; $i ++) {
+            $skuList[$i]['sku_name'] = $goodInfo['sku_names'][$i];
+            $skuList[$i]['sku_sn'] = 'Sn'.str_replace(',','',$goodInfo['sku_strs'][$i]).$goodInfo['sku_weights'][$i].rand(1000,9999);
+            $skuList[$i]['sku_inventory'] = $goodInfo['sku_inventorys'][$i];
+            $skuList[$i]['sku_price'] = $goodInfo['sku_prices'][$i];
+            $skuList[$i]['sku_str'] = $goodInfo['sku_strs'][$i];
+            $skuList[$i]['sku_weight'] = $goodInfo['sku_weights'][$i];
+            $skuList[$i]['create_time'] = $skuList[$i]['update_time'] = time();
+        }
+        return $skuList;
+    }
+
+    /**
+     * 处理商品属性管理
+     */
+    public function createGoodAttr($attr_values)
+    {
+        $goodAttrs = [];
+        foreach ($attr_values as $key => $value) {
+            foreach ($value as $k => $item) {
+                $goodAttrs[] = [
+                    'attr_id' => $key,
+                    'attr_val_id' => $item,
+                ];
+            }
+        }
+        return $goodAttrs;
+    }
+
+    /**
+     * 商品信息入库
+     */
+    public function insertGoodInfo($skuList,$goodAttrs,$goodInfo)
+    {
+        DB::beginTransaction();
+        try {
+            $goodInfo->save();
+            foreach ($skuList as $key => $value) {
+                $skuList[$key]['good_id'] = $goodInfo->good_id;
+            }
+            Sku::insert($skuList);
+            foreach ($goodAttrs as $key => $value) {
+                $goodAttrs[$key]['good_id'] = $goodInfo->good_id;
+            }
+            $good = new Good();
+            $good->createGoodAttr($goodAttrs);
+            $result = true;
+            DB::commit();
+            
+        } catch (\Expection $e) {
+            $result = $e->getMessage();
+            DB::rollBack();
+        }
+        return $result;
     }
 }

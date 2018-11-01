@@ -15,8 +15,10 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
+//跳转提示
 Route::get('warning','WarningController@index');
 
+//商城前台路由中心
 Route::group(['namespace'=>'Home'],function(){
     Route::get('/','IndexController@index');//首页展示
     Route::match(['get','post'],'users/login','UsersController@login');//用户登录功能
@@ -27,43 +29,53 @@ Route::group(['namespace'=>'Home'],function(){
     Route::get('users/signin','UsersController@signin');//用户签到
 });
 
+//商城后台路由中心
 Route::match(['get','post'],'admin/login','Admin\UsersController@login');//后台用户登录
 Route::get('admin/loginout','Admin\UsersController@loginout');//退出登录
 Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware'=>'adminLogin'],function(){
+    //首页
     Route::get('/','IndexController@index');//后台首页
+    //管理员
     Route::get('users/list','UsersController@index');//管理员列表
     Route::post('users','UsersController@store');//添加管理员
     Route::get('users/create','UsersController@create');//创建管理员表单
     Route::get('users/edit','UsersController@edit');//编辑管理员
     Route::post('users/freeze','UsersController@freeze');//冻结用户
     Route::post('users/delete','UsersController@delete');//删除用户
+    //角色
     Route::get('roles/list','RolesController@index');//角色列表
     Route::get('roles/show','RolesController@show');//查看角色权限
     Route::post('roles','RolesController@store');//添加角色
     Route::get('roles/create','RolesController@create');//创建角色表单
     Route::match(['get','post'],'roles/edit','RolesController@edit');//修改角色信息
     Route::get('roles/delete','RolesController@delete');//删除角色信息
+    Route::match(['get','post'],'roles/update','RolesController@update');//修改角色权限
+    //菜单
     Route::get('menus/list','MenusController@index');//菜单列表
     Route::post('menus','MenusController@store');//添加菜单
     Route::get('menus/create','MenusController@create');//创建菜单表单
     Route::get('menus/edit','MenusController@edit');//编辑菜单
     Route::get('menus/delete','MenusController@delete');//菜单删除
-    Route::match(['get','post'],'roles/update','RolesController@update');//修改角色权限
+    //商品
     Route::post('goods','GoodsController@store');//商品添加操作
     Route::get('goods/list','GoodsController@list');//商品列表展示
     Route::get('goods/create','GoodsController@create');//创建商品
     Route::post('goods/sku','GoodsController@sku');//sku管理页面
-    Route::get('types/getattrsbytype','TypesController@getattrsbytype');//通过分类获取属性
+    Route::get('goods/show','GoodsController@show');//商品详细信息展示
+    //商品分类
+    Route::post('types/getattrsbytype','TypesController@getattrsbytype');//通过分类获取属性
     Route::get('types/list','TypesController@list');//分类列表
     Route::get('types/create','TypesController@create');//添加分类表单
     Route::post('types','TypesController@store');//添加分类
     Route::get('types/delete','TypesController@delete');//删除分类
     Route::get('types/edit','TypesController@edit');//编辑分类
-    Route::get('types/getattrsform','TypesController@getAttrsForm');
-    Route::post('types/getattrs','TypesController@getattrs');
+    Route::get('types/getattrsform','TypesController@getAttrsForm');//获取属性列表
+    Route::post('types/getattrs','TypesController@getattrs');//获取属性信息
+    //商品属性
     Route::get('attributes/list','AttrsController@list');//属性列表
     Route::get('attributes/create','AttrsController@create');//添加属性表单
     Route::post('attributes','AttrsController@store');//添加属性
     Route::get('attributes/delete','AttrsController@delete');//删除属性
+    Route::post('attributes/getattrval','AttrsController@getattrval');//获取属性值列表
     Route::match(['get','post'],'attributes/edit','AttrsController@edit');//编辑属性
 });

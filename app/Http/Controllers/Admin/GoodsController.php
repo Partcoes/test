@@ -57,10 +57,15 @@ class GoodsController extends Controller
         foreach ($allAttrData as $value) {
             $skuList[] = $this->valueService->getSkuList($value);
         }
-        if (!$skuList[0]) {
-            return 'false';
-        }
         return $skuList;
+    }
+
+    /**
+     * 文件上传
+     */
+    public function uploadImgs(Request $request)
+    {
+        return $request->file();
     }
 
     /**
@@ -68,6 +73,53 @@ class GoodsController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->file());
+        if ($request->isMethod('post')) {
+            $this->validate($request,[
+                'good_name' => 'required',
+                'good_price' => 'required',
+                'type_id' => 'required',
+                'attrs' => 'required',
+                'attr_values' => 'required',
+            ]);
+        }
+        $GoodInfo = $request->input();
+        unset($GoodInfo['_token']);
+        unset($GoodInfo['news']);
+
+        dump($request->file());
+
+        dd($GoodInfo);
+
+        //调用方法获取sku数据
+        $skuList = $this->goodService->createSkuList($GoodInfo);
+
+        //计算总库存
+        $good_num = 0;
+        foreach ( $skuList as $key => $value ) {
+            $good_num += $value['sku_inventory'];
+        }
+
+        //调用方法获取商品属性
+        $goodAttrs = $this->goodService->createGoodAttr($GoodInfo['attr_values']);
+        //调用方法获取商品信息
+        $goodInfo = $this->goodService->createGoodInfo($GoodInfo,$good_num);
+        //商品信息入库
+        $result = $this->goodService->insertGoodInfo($skuList,$goodAttrs,$goodInfo);
+        
+        if ($result) {
+            return redirect('/warning')->with(['message'=>'保存成功','url'=>'/admin/goods/list','jumpTime'=>3,'status'=>'true']);
+        } else {
+            return redirect('/warning')->with(['message'=>'保存失败','url'=>'/admin/goods/create','jumpTime'=>3,'status'=>'false']);
+        }
+    }
+
+    /**
+     * 商品详细信息展示
+     */
+    public function show(Request $request)
+    {
+        $goodId = $request->input('goodId');
+        $goodInfo = $this->goodService->getGoodDetail($goodId);
+        return view('admin.goods.gooddetail',['goodInfo'=>$goodInfo]);
     }
 }

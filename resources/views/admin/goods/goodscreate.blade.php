@@ -36,15 +36,9 @@
                 </div>
             </div>
             <div class="form-group col-sm-12">
-                <label class="col-sm-2 control-label" for="good_num">商品数量</label>
-                <div class="col-sm-10">
-                    <input class="form-control" type="text" name="good_num" id="good_num" placeholder="商品数量" value="{{isset($default->good_num)?$default->good_num:''}}">
-                </div>
-            </div>
-            <div class="form-group col-sm-12">
                 <label class="col-sm-2 control-label" for="good_num">商品图片</label>
                 <div class="col-sm-10">
-                    <input multiple data-show-caption="true" type="file" name="good_img[]" id="good_img">
+                    <input multiple data-show-caption="true" type="file" class="file" name="good_img[]" id="good_img">
                 </div>
             </div>
             <div class="form-group col-sm-12">
@@ -64,36 +58,16 @@
             <div class="form-group col-sm-12" id="good_attrs" hidden>
                 <div class="col-sm-2"><b>商品属性</b></div>
                 <ul class="col-sm-7" id="goodattrs">
-                    @foreach ($attrs as $key => $value)
-                        <li id="attr_{{$value->attr_id}}" autocomplete="off" hidden><label class="checkbox-inline"><input class="ownattrs" type="checkbox" name="attr[]" value="{{$value->attr_id}}">{{$value->attr_name}}</label></li>
-                    @endforeach
+                    
                 </ul>
                 <div class="col-sm-3">
                     <span style="color:red;">*请选择商品属性</span>
                 </div>
             </div>
             <div class="form-group col-sm-12" id="attr_value" hidden>
-                <div class="col-sm-2">属性值</div>
-                <div class="col-sm-7">
-                    <table class="table table-bordered">
-                    @foreach ($attrs as $key => $value)
-                        <tr id="tr_{{$value->attr_id}}" class="attr_vals" hidden>
-                            <td class="col-sm-2">{{$value->attr_name}}</td>
-                            <td class="col-sm-10">
-                                <p>
-                                @foreach ($value->values as $k => $item)
-                                    <span>
-                                        <label style="margin-left:25px;" class="checkbox-inline"><input type="checkbox" class="attr_value_element" name="attr_values[{{$value->attr_id}}][]" parent="{{$value->attr_id}}" value="{{$item->attr_val_id}}">{{$item->attr_val_name}}</label>
-                                    </span>
-                                @endforeach
-                                </p>
-                                <p>
-                                    <input class="form-control" type="text" name="news[{{$value->attr_id}}]" id="new_{{$value->attr_id}}" placeholder="没有想要的属性值可以手动添加">
-                                </p>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </table>
+                <div class="col-sm-2"><b>属性值</b></div>
+                <div class="col-sm-7" id="attrValHtml">
+                    
                 </div>
                 <div class="col-sm-3">
                     <span style="color:red;">*请选择属性值,自定义添加时添加多个可使用-分开</span>
@@ -110,7 +84,6 @@
                             <thead>
                                 <tr>
                                     <td>组合类型</td>
-                                    <td>sku_str</td>
                                     <td>价格</td>
                                     <td>库存</td>
                                     <td>重量</td>
@@ -135,7 +108,7 @@
                 <textarea name="description" id="description" hidden></textarea>
             </div>
         </div>
-        <div class="box-footer"><input class="btn btn-default" type="reset" value="重置"><input class="btn btn-info pull-right" type="submit" value="下一步"></div>
+        <div class="box-footer"><input class="btn btn-default" type="reset" value="重置"><input class="btn btn-info pull-right" type="submit" value="添加"></div>
     </div>
     </form>
 @endsection
@@ -205,67 +178,44 @@
         description.val(editor.txt.html());
         
         /**
-         * 选中分类获取属性展示
+         * 联动获取属性、属性值、货品信息
          */
         $('#type_id').change(function(){
             var typeId = $(this).val();
-            $.ajax({
-                type : 'get',
-                url : "{{URL::asset('admin/types/getattrsbytype')}}",
-                data : {typeId:typeId},
-                success:function(msg) {
-                    $('#skuInfo').hide();
-                    if (msg == 0) {
-                        $('#good_attrs').hide();
-                    } else {
-                        $('#good_attrs').show();
-                        $('.ownattrs').parent().parent().hide();
-                        $('.ownattrs').each(function(){
-                            var attrId = $(this).val();
-                            $(this).prop('checked',false);
-                            $(this).on('change',is_show(false,attrId));
-                        });
-                        for (var start = 0 ; start < msg.length ; start ++) {
-                            $('#attr_'+msg[start].attr_id).show();
-                        }
-                    }
-                }
-            });
-        });
-
-        /**
-         * 选中属性获取属性值
-         */
-        $('.ownattrs').each(function(){
-            $(this).change(function(){
-                var attrId = $(this).val();
-                var bool = $(this).is(':checked');
-                is_show(bool,attrId);
-            });
-        });
-
-
-        /**
-         * 点击判断是否显示隐藏
-         */
-        function is_show(bool,attrId)
-        {
-            if ( bool ) {
-                $('#attr_value').show(500);
-                $('#tr_'+attrId).show(500);
-            } else {
-                $('#tr_'+attrId).hide(500);
-                $('.attr_value_element').prop('checked',false);
-                if (!$('.ownattrs').is(':checked')) {
-                    $('#attr_value').hide(500);
-                }
+            $('#attr_value').hide(1000);
+            $('#skuInfo').hide(1000);
+            if (typeId == 0) {
+                $('#good_attrs').hide(1000);
+                return;
             }
-            
-        }
-        
+            $('#good_attrs').show(1000);
+            var attrHtml = getAttrList(typeId);
+            $('#goodattrs').html(attrHtml);
+            /**
+            * 选中属性获取属性值
+            */
+            $('.ownattrs').change(function(){
+                var attrIds = [];
+                $('.ownattrs').each(function(){
+                    if ($(this).is(':checked')) {
+                        attrIds.push($(this).val());
+                    }
+                });
+                if (attrIds.length == 0) {
+                    $('#attr_value').hide(1000);
+                    $('#skuInfo').hide(1000);
+                    return;
+                }
+                $('#attr_value').show(1000);
+                var attrValHtml = getAttrValList(attrIds);
+                // console.log(attrValHtml);
+                $('#attrValHtml').html(attrValHtml);
+            });
+        });
+
         /**
-         * 点击生成货品信息
-         */
+        * 点击生成货品信息
+        */
         $('#createSku').click(function(){
             var allAttrId = [];
             var allAttrVal = [];
@@ -275,40 +225,96 @@
                 $(this).find('.attr_value_element').each(function(){
                     if ($(this).is(':checked')) {
                         child.push($(this).val());
-                        val.push($(this).parent().text());
+                        val.push($(this).parent().text().trim());
                     }
                 });
                 allAttrId.push(child);
                 allAttrVal.push(val);
             });
+            if (!$('.attr_value_element').is(':checked')) {
+                alert('请选择属性值');return;
+            }
+            $('#skuInfo').show(500);
+            var skuInfoHtml = getSkuList(allAttrId,allAttrVal);
+            // console.log(skuInfoHtml);return;
+            $('#skuDetail').html(skuInfoHtml);
+            $('.sku-del').each(function(){
+                $(this).click(function(){
+                    var id = $(this).attr('id');
+                    $('#sku-tr-'+id).remove();
+                    if ($('.sku-del').length == 0) {
+                        $('#skuInfo').hide(500);
+                    }
+                });
+            });
+        });
+
+        /**
+            发送ajax请求并获取属性html
+         */
+         function getAttrList(typeId)
+         {
+            var attrHtml = '';
+            $.ajax({
+                type : 'post',
+                async : false,
+                url : "{{URL::asset('admin/types/getattrsbytype')}}",
+                data : {typeId:typeId,'_token':"{{csrf_token()}}"},
+                success:function(msg) {
+                    for ( var start in msg ) {
+                        attrHtml += "<li id='attr_"+msg[start].attr_id+"'><label class='checkbox-inline'><input class='ownattrs' type='checkbox' name='attrs[]' value='"+msg[start].attr_id+"'>"+msg[start].attr_name+"</label></li>";
+                    }
+                }
+            });
+            return attrHtml;
+         }
+
+         /**
+            发送ajax请求并获取属性值html
+         */
+        function getAttrValList(attrIds)
+         {
+            var attrValHtml = '';
+            $.ajax({
+                type : 'post',
+                async : false,
+                url : "{{URL::asset('admin/attributes/getattrval')}}",
+                data : {attrIds:attrIds,'_token':"{{csrf_token()}}"},
+                success:function(msg) {
+                    for ( var start in msg ) {
+                            attrValHtml += "<div style='margin:35px 0px 40px 0px;' class='col-sm-12' id='attr_val_info_"+start+"'><P class='col-sm-2'><b>"+msg[start][0].attr_name+"</b></p><p class='col-sm-10'><input class='form-control' type='text' name='news["+msg[start][0].attr_id+"]' placeholder='请输入新的属性值' /></p><p class='attr_vals col-sm-12'>";
+                        for (var b in msg[start]) {
+                            attrValHtml += "<label style='margin-left:25px;'><input class='attr_value_element' type='checkbox' name='attr_values["+msg[start][b].attr_id+"][]' value='"+msg[start][b].attr_val_id+"' />"+msg[start][b].attr_val_name+"</label>";
+                        }
+                        attrValHtml += "</p></div>";
+                    }
+                    // attrValHtml = msg;
+                }
+            });
+            return attrValHtml;
+         }
+
+         /**
+            生成货品信息
+          */
+          function getSkuList(allAttrId,allAttrVal)
+          {
+            var skuInfoHtml = '';
             $.ajax({
                 type : 'post',
                 url : "{{URL::asset('admin/goods/sku')}}",
+                async : false,
                 data : {allAttrId:allAttrId,allAttrVal:allAttrVal,'_token':"{{csrf_token()}}"},
                 dataType : 'json',
                 success:function(msg) {
-                    if (!msg) {
-                        alert('请选择属性值');return;
-                    } else {
-                        $('#skuInfo').show(500);
-                        var skuInfoHtml = '';
-                        for ( var start in msg[1]) {
-                            skuInfoHtml += "<tr id='sku-tr-"+start+"'><td><input type='hidden' name='sku_str["+start+"][]' value='"+msg[0][start]+"' /><input readonly unselectable='on' type='text' name='sku_name["+start+"][]' value='"+msg[1][start]+"'  /></td><td><input type='text' name='sku_price["+start+"][]' placeholder='请输入货品价格'></td><td><input type='text' name='sku_inventory["+start+"][]' placeholder='请输入货品库存量'></td><td><input type='text' name='sku_weight["+start+"][]' placeholder='请输入货品重量'></td><td><button type='button' class='btn btn-warning sku-del' id='"+start+"'>删除</button></td></tr>";
-                        }
-                        $('#skuDetail').html(skuInfoHtml);
+                    for ( var start in msg[1]) {
+                        skuInfoHtml += "<tr id='sku-tr-"+start+"'><td><input type='hidden' name='sku_strs["+start+"]' value='"+msg[0][start]+"' /><input class='form-control' readonly unselectable='on' type='text' name='sku_names["+start+"]' value='"+msg[1][start]+"'  /></td><td><input class='form-control' type='text' name='sku_prices["+start+"]' placeholder='请输入货品价格' required></td><td><input class='form-control' type='text' name='sku_inventorys["+start+"]' placeholder='请输入货品库存量' required></td><td><input class='form-control' type='text' name='sku_weights["+start+"]' placeholder='请输入货品重量' required></td><td><button type='button' class='btn btn-warning sku-del' id='"+start+"'>删除</button></td></tr>";
                     }
-                    $('.sku-del').each(function(){
-                        $(this).click(function(){
-                            var id = $(this).attr('id');
-                            $('#sku-tr-'+id).remove();
-                            if ($('.sku-del').length == 0) {
-                                $('#skuInfo').hide(500);
-                            }
-                        });
-                    });
+                    // skuInfoHtml = msg;
                 }
             });
-        });
+            return skuInfoHtml;
+          }
     });
 </script>
 @endsection

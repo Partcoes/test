@@ -67,4 +67,29 @@ class AttrService
         Attr::where(['attr_id'=>$attr_id])->update(['attr_name'=>$attr_name]);
         return true;
     }
+
+    /**
+     * 通过attrids获取属性值
+     */
+    public function getAttrValByAttrId($attrIds)
+    {
+        $data = Value::whereIn('attr_id',$attrIds)->get();
+        foreach ($data as $key => $value) {
+            $attr_ids[] = $value->attr_id;
+        }
+        $attr_ids = array_values(array_unique($attr_ids));
+        foreach ($attr_ids as $key => $value) {
+            foreach ($data as $k => $item) {
+                if ($value == $item->attr_id) {
+                    $result[$key][] = [
+                        'attr_val_id' => $item->attr_val_id,
+                        'attr_id' => $item->attr_id,
+                        'attr_name' => $item->attr->attr_name,
+                        'attr_val_name' => $item->attr_val_name,
+                    ];
+                }
+            }
+        }
+        return $result;
+    }
 }

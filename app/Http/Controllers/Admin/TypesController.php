@@ -125,7 +125,7 @@ class TypesController extends Controller
      */
     public function getattrsbytype(Request $request)
     {
-        $typeId = $request->typeId;
+        $typeId = $request->input('typeId');
         if ($typeId == 0) {
             return 0;
         }
